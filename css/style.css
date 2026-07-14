@@ -120,8 +120,58 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     flex-wrap: wrap;
 }
 
-.hero-collage { margin-top: 40px; }
-.hero-collage img { width: 100%; }
+/* The collage is five positioned cards, not one flat image, so they can drift
+   independently on scroll. Position, angle and the uniform 0.775 scale were
+   measured off the Figma render, so the rest state reproduces the design. The
+   outer two deliberately bleed past the edges, as in the design. */
+.hero-collage { position: relative; margin-top: 40px; }
+
+/* The stage keeps the design's ratio so the composition never distorts, and
+   clips the outer cards' bleed. The trusted block sits outside it, so the logos
+   are never caught by that clip. */
+.collage-stage {
+    position: relative;
+    aspect-ratio: 1440 / 550;
+    overflow: hidden;
+}
+
+.collage-card {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 18.67%;              /* 347px card canvas at 0.775 scale of a 1440 design */
+    transform: rotate(var(--r));
+}
+
+/* --x/--y/--r place the card; --dx/--dy/--dr are how far it drifts on scroll. */
+.collage-card[data-card="nafdac"]   { --x: -1.35%; --y: 43.62%; --r: -40deg; --dx: -64px; --dy:  34px; --dr: -5deg; }
+.collage-card[data-card="topmenu"]  { --x: 18.44%; --y:  9.98%; --r: -20deg; --dx: -26px; --dy:  14px; --dr: -2deg; }
+.collage-card[data-card="arabot"]   { --x: 40.66%; --y: -0.56%; --r:   0deg; --dx:   0px; --dy: -20px; --dr:  0deg; }
+.collage-card[data-card="priori"]   { --x: 63.44%; --y: 11.80%; --r:  24deg; --dx:  26px; --dy:  14px; --dr:  2deg; }
+.collage-card[data-card="bigideas"] { --x: 81.50%; --y: 43.62%; --r:  43deg; --dx:  64px; --dy:  34px; --dr:  5deg; }
+
+/* Overlaid into the gap the cards leave in the middle of the collage. */
+.trusted { position: absolute; left: 0; right: 0; top: 72.7%; text-align: center; }
+.trusted p { font-size: 17px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
+.trusted img { width: 35.07%; margin: 16px auto 0; }
+
+@keyframes card-drift {
+    from { transform: translate(0, 0) rotate(var(--r)); }
+    to   { transform: translate(var(--dx), var(--dy)) rotate(calc(var(--r) + var(--dr))); }
+}
+
+/* The cards fan apart as the hero scrolls away. A native scroll timeline: no
+   library, and it runs on the compositor rather than the main thread. Browsers
+   without it simply keep the rest state above, which is the design as drawn. */
+@supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .collage-card {
+            animation: card-drift linear both;
+            animation-timeline: scroll(root block);
+            animation-range: 0px 700px;
+        }
+    }
+}
 
 /* ---------- Teal bands ---------- */
 
@@ -624,6 +674,10 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .hero-title { font-size: clamp(28px, 8vw, 36px); }
     .hero-title br { display: none; }
     .band-title { font-size: clamp(24px, 6.8vw, 30px); }
+    /* The collage band is only ~150px tall at this width, far too short to hold
+       the logos in the gap between the cards, so they drop below instead. */
+    .trusted { position: static; margin-top: 16px; }
+    .trusted img { width: 66%; margin-top: 10px; }
     .process-head { flex-direction: column; align-items: flex-start; }
     .cat-grid { grid-template-columns: 1fr; }
     .price-card { grid-template-columns: 1fr; }

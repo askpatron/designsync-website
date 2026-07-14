@@ -40,8 +40,20 @@
             <a href="mailto:hello@trydesignsync.com" class="btn btn-ghost">Request a demo</a>
         </div>
     </div>
+    <!-- Five separately positioned cards rather than one flat image, so each can
+         drift on scroll. Their geometry lives in the stylesheet. -->
     <div class="hero-collage">
-        <img src="assets/hero-collage.png" alt="A collage of designs delivered by Design Sync, trusted by NAFDAC, Priori Orators, Ventures Park and topmenu">
+        <div class="collage-stage">
+            <img class="collage-card" data-card="nafdac" src="assets/cards/card-nafdac-label.webp" alt="NAFDAC Read the Food Label campaign design">
+            <img class="collage-card" data-card="topmenu" src="assets/cards/card-topmenu.webp" alt="topmenu social campaign design">
+            <img class="collage-card" data-card="arabot" src="assets/cards/card-arabot.webp" alt="Arabot Emirati Children&rsquo;s Day design">
+            <img class="collage-card" data-card="priori" src="assets/cards/card-priori.webp" alt="Priori Orators International Workers&rsquo; Day design">
+            <img class="collage-card" data-card="bigideas" src="assets/cards/card-bigideas.webp" alt="Product advert design: big ideas with no screen size limit">
+        </div>
+        <div class="trusted">
+            <p>Trusted by</p>
+            <img src="assets/trusted-logos.webp" alt="NAFDAC, Priori Orators, Ventures Park and topmenu">
+        </div>
     </div>
 </section>
 
