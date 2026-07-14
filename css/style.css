@@ -127,12 +127,23 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 .hero-collage { position: relative; margin-top: 40px; }
 
 /* The stage keeps the design's ratio so the composition never distorts, and
-   clips the outer cards' bleed. The trusted block sits outside it, so the logos
-   are never caught by that clip. */
+   clips the wheel's bleed. The trusted block sits outside it, so the logos are
+   never caught by that clip. */
 .collage-stage {
     position: relative;
     aspect-ratio: 1440 / 550;
     overflow: hidden;
+}
+
+/* The cards are not scattered: they sit on a circle centred at (720, 1036.6) in
+   the design's 1440x550 stage, radius ~875, each rotated tangent to it and one
+   slot (21.7deg) apart. So rotating this one element sweeps every card along the
+   arc and keeps each tangent, for free. The origin is that circle's centre,
+   which sits below the stage. */
+.collage-wheel {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 188.47%;
 }
 
 .collage-card {
@@ -143,34 +154,44 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     transform: rotate(var(--r));
 }
 
-/* --x/--y/--r place the card; --dx/--dy/--dr are how far it drifts on scroll. */
-.collage-card[data-card="nafdac"]   { --x: -1.35%; --y: 43.62%; --r: -40deg; --dx: -64px; --dy:  34px; --dr: -5deg; }
-.collage-card[data-card="topmenu"]  { --x: 18.44%; --y:  9.98%; --r: -20deg; --dx: -26px; --dy:  14px; --dr: -2deg; }
-.collage-card[data-card="arabot"]   { --x: 40.66%; --y: -0.56%; --r:   0deg; --dx:   0px; --dy: -20px; --dr:  0deg; }
-.collage-card[data-card="priori"]   { --x: 63.44%; --y: 11.80%; --r:  24deg; --dx:  26px; --dy:  14px; --dr:  2deg; }
-.collage-card[data-card="bigideas"] { --x: 81.50%; --y: 43.62%; --r:  43deg; --dx:  64px; --dy:  34px; --dr:  5deg; }
+/* --x/--y put the card on the arc; --r is its tangent, which is simply its angle
+   on the circle. Slots 0-5 are the ones on stage at rest; 6-11 hold the second
+   pass of the deck, parked off-canvas below, waiting to ride in. */
+.collage-card[data-slot="0"]  { --x:  -1.07%; --y:  42.92%; --r: -43.4deg; }
+.collage-card[data-slot="1"]  { --x:  18.21%; --y:  10.71%; --r: -21.7deg; }
+.collage-card[data-slot="2"]  { --x:  40.66%; --y:  -0.56%; --r:   0.0deg; }
+.collage-card[data-slot="3"]  { --x:  63.12%; --y:  10.71%; --r:  21.7deg; }
+.collage-card[data-slot="4"]  { --x:  82.39%; --y:  42.92%; --r:  43.4deg; }
+.collage-card[data-slot="5"]  { --x:  95.75%; --y:  91.51%; --r:  65.1deg; }
+.collage-card[data-slot="6"]  { --x: 101.30%; --y: 149.58%; --r:  86.8deg; }
+.collage-card[data-slot="7"]  { --x:  98.26%; --y: 208.92%; --r: 108.5deg; }
+.collage-card[data-slot="8"]  { --x:  87.05%; --y: 261.10%; --r: 130.2deg; }
+.collage-card[data-slot="9"]  { --x:  69.27%; --y: 298.73%; --r: 151.9deg; }
+.collage-card[data-slot="10"] { --x:  47.43%; --y: 316.49%; --r: 173.6deg; }
+.collage-card[data-slot="11"] { --x:  24.64%; --y: 311.84%; --r: 195.3deg; }
 
 /* Overlaid into the gap the cards leave in the middle of the collage. */
 .trusted { position: absolute; left: 0; right: 0; top: 72.7%; text-align: center; }
 .trusted p { font-size: 17px; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
 .trusted img { width: 35.07%; margin: 16px auto 0; }
 
-@keyframes card-drift {
-    from { transform: translate(0, 0) rotate(var(--r)); }
-    to   { transform: translate(var(--dx), var(--dy)) rotate(calc(var(--r) + var(--dr))); }
+/* Six slots of turn. Because the deck is laid out twice, that lands every
+   artwork exactly where its twin began, so the reset is invisible and the wheel
+   reads as one endless arc. */
+@keyframes wheel-turn {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-130.2deg); }
 }
 
-/* The cards fan apart as the hero scrolls away. A native scroll timeline: no
-   library, and it runs on the compositor rather than the main thread. Browsers
-   without it simply keep the rest state above, which is the design as drawn. */
-@supports (animation-timeline: scroll()) {
-    @media (prefers-reduced-motion: no-preference) {
-        .collage-card {
-            animation: card-drift linear both;
-            animation-timeline: scroll(root block);
-            animation-range: 0px 700px;
-        }
-    }
+/* Turns on its own from page load, no scrolling required and nothing pinned, so
+   the page below is never held back. One transform on one element, so it runs on
+   the compositor. */
+.collage-wheel {
+    animation: wheel-turn 96s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .collage-wheel { animation: none; }
 }
 
 /* ---------- Teal bands ---------- */
@@ -678,6 +699,9 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
        the logos in the gap between the cards, so they drop below instead. */
     .trusted { position: static; margin-top: 16px; }
     .trusted img { width: 66%; margin-top: 10px; }
+    /* Slower on a phone: the arc is small at this width, and a gentler turn
+       avoids drawing the eye away from the buttons above it. */
+    .collage-wheel { animation-duration: 150s; }
     .process-head { flex-direction: column; align-items: flex-start; }
     .cat-grid { grid-template-columns: 1fr; }
     .price-card { grid-template-columns: 1fr; }

@@ -44,11 +44,25 @@
          drift on scroll. Their geometry lives in the stylesheet. -->
     <div class="hero-collage">
         <div class="collage-stage">
-            <img class="collage-card" data-card="nafdac" src="assets/cards/card-nafdac-label.webp" alt="NAFDAC Read the Food Label campaign design">
-            <img class="collage-card" data-card="topmenu" src="assets/cards/card-topmenu.webp" alt="topmenu social campaign design">
-            <img class="collage-card" data-card="arabot" src="assets/cards/card-arabot.webp" alt="Arabot Emirati Children&rsquo;s Day design">
-            <img class="collage-card" data-card="priori" src="assets/cards/card-priori.webp" alt="Priori Orators International Workers&rsquo; Day design">
-            <img class="collage-card" data-card="bigideas" src="assets/cards/card-bigideas.webp" alt="Product advert design: big ideas with no screen size limit">
+            <!-- The cards are mounted on a wheel that turns for ever, so one
+                 transform sweeps them all along the arc. The six artworks appear
+                 twice: turning exactly six slots lands each on where its twin
+                 started, which is what makes the loop seamless. Slots 6-11 wait
+                 off-canvas below and ride in. Geometry is in the stylesheet. -->
+            <div class="collage-wheel">
+                <img class="collage-card" data-slot="0" src="assets/cards/card-nafdac-label.webp" alt="NAFDAC Read the Food Label campaign design">
+                <img class="collage-card" data-slot="1" src="assets/cards/card-topmenu.webp" alt="topmenu social campaign design">
+                <img class="collage-card" data-slot="2" src="assets/cards/card-arabot.webp" alt="Arabot Emirati Children&rsquo;s Day design">
+                <img class="collage-card" data-slot="3" src="assets/cards/card-priori.webp" alt="Priori Orators International Workers&rsquo; Day design">
+                <img class="collage-card" data-slot="4" src="assets/cards/card-bigideas.webp" alt="Product advert design: big ideas with no screen size limit">
+                <img class="collage-card" data-slot="5" src="assets/cards/card-nafdac-safety.webp" alt="NAFDAC World Safety Day campaign design">
+                <img class="collage-card" data-slot="6" src="assets/cards/card-nafdac-label.webp" alt="" aria-hidden="true">
+                <img class="collage-card" data-slot="7" src="assets/cards/card-topmenu.webp" alt="" aria-hidden="true">
+                <img class="collage-card" data-slot="8" src="assets/cards/card-arabot.webp" alt="" aria-hidden="true">
+                <img class="collage-card" data-slot="9" src="assets/cards/card-priori.webp" alt="" aria-hidden="true">
+                <img class="collage-card" data-slot="10" src="assets/cards/card-bigideas.webp" alt="" aria-hidden="true">
+                <img class="collage-card" data-slot="11" src="assets/cards/card-nafdac-safety.webp" alt="" aria-hidden="true">
+            </div>
         </div>
         <div class="trusted">
             <p>Trusted by</p>
