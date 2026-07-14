@@ -71,26 +71,45 @@
     </div>
 </section>
 
-<!-- ============ CATEGORIES (teal band) ============ -->
+<!-- ============ CATEGORIES / SKILLS (teal band) ============
+     Six cards, which is wider than the viewport. The band pins and the row
+     travels sideways as you scroll: the horizontal travel IS the runway, so
+     unlike a pinned hero it costs no dead page. Geometry is in the stylesheet. -->
 <section class="band-teal categories">
-    <div class="container">
-        <h2 class="band-title" data-reveal>One team, one plan, covering the design your business actually needs day to day.</h2>
-        <div class="cat-grid" data-reveal-stagger>
-            <div class="cat-card" data-reveal>
-                <div class="cat-media"><img src="assets/cat-motion.png" alt="Motion graphics samples"></div>
-                <p class="cat-label">Motion Graphics</p>
-            </div>
-            <div class="cat-card" data-reveal>
-                <div class="cat-media"><img src="assets/cat-present.png" alt="Presentation design samples"></div>
-                <p class="cat-label">Presentations</p>
-            </div>
-            <div class="cat-card" data-reveal>
-                <div class="cat-media"><img src="assets/cat-social.png" alt="Social media design samples"></div>
-                <p class="cat-label">Social Media</p>
-            </div>
-            <div class="cat-card" data-reveal>
-                <div class="cat-media"><img src="assets/cat-brochure.png" alt="Brochure design samples"></div>
-                <p class="cat-label">Brochure Designs</p>
+    <div class="cat-pin">
+        <div class="container">
+            <h2 class="band-title">One team, one plan, covering the design your business actually needs day to day.</h2>
+        </div>
+        <div class="cat-viewport">
+            <div class="cat-track">
+                <div class="cat-card">
+                    <div class="cat-media">
+                        <video src="assets/skills/motion.mp4" poster="assets/skills/motion-poster.webp"
+                               autoplay muted loop playsinline preload="metadata"
+                               aria-label="Motion graphics showreel: an animated Good Food banner"></video>
+                    </div>
+                    <p class="cat-label">Motion Graphics</p>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-media"><img src="assets/skills/skill-presentations.webp" alt="Presentation design samples"></div>
+                    <p class="cat-label">Presentations</p>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-media"><img src="assets/skills/skill-social.webp" alt="Social media design samples"></div>
+                    <p class="cat-label">Social Media</p>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-media"><img src="assets/skills/skill-brochure.webp" alt="Brochure design samples"></div>
+                    <p class="cat-label">Brochure Designs</p>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-media"><img src="assets/skills/skill-businesscard.webp" alt="Business card design samples"></div>
+                    <p class="cat-label">Business card</p>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-media"><img src="assets/skills/skill-packaging.webp" alt="Product packaging design samples"></div>
+                    <p class="cat-label">Packaging</p>
+                </div>
             </div>
         </div>
     </div>
