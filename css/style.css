@@ -284,17 +284,21 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     gap: 32px;
 }
 
+/* Radius and padding measured off the Figma card (border at x=80, content at
+   x=91, corner solid 31px down). */
 .step-card {
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    padding: 14px 14px 36px;
+    border-radius: 30px;
+    padding: 10px 10px 36px;
     text-align: center;
     box-shadow: 0 18px 40px -28px rgba(16, 16, 16, .18);
 }
 
+/* Outer radius minus the padding, so the inner curve stays concentric with the
+   card's instead of reading as a second, tighter corner. */
 .step-media {
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
     margin-bottom: 26px;
 }
@@ -366,10 +370,17 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 
 .price-standard { background: #fff; }
 .price-pro { background: var(--teal-dark); }
-.price-pro h3, .price-pro .amount { color: #fff; }
-.price-pro .per, .price-pro .price-note { color: rgba(255, 255, 255, .75); }
-.price-pro .list-label { color: rgba(255, 255, 255, .7); }
-.price-pro li { color: rgba(255, 255, 255, .92); }
+
+/* Pro is a dark surface, so its type inverts. The doubled class is load-bearing:
+   the generic .price-amount/.price-features rules further down match these same
+   elements with equal specificity, so they would win on source order alone, and
+   that is exactly what left the price and the feature list black on teal. */
+.price-card.price-pro h3,
+.price-card.price-pro .amount { color: #fff; }
+.price-card.price-pro .per,
+.price-card.price-pro .price-note { color: rgba(255, 255, 255, .75); }
+.price-card.price-pro .list-label { color: rgba(255, 255, 255, .7); }
+.price-card.price-pro li { color: rgba(255, 255, 255, .92); }
 
 .price-main { display: flex; flex-direction: column; }
 .price-main h3 { font-size: 22px; }
