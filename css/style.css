@@ -198,32 +198,7 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 
 .band-teal { background: var(--teal); }
 
-/* The band is taller than one screen: ::after is the runway it scrolls through
-   while pinned. It has to be an in-flow box, not padding, or the sticky child
-   has no room to travel within its parent's content box and never sticks. */
-.categories {
-    position: relative;
-    view-timeline-name: --skills;
-    view-timeline-axis: block;
-}
-
-/* Long enough to carry one full set (6 x 355px = 2130px) of sideways travel at
-   a little under 2px per px of scroll. Shorten this to release sooner. */
-.categories::after { content: ''; display: block; height: 130vh; }
-
-/* Exactly 100vh, which is what makes the timeline below line up: for a subject
-   taller than the screen, the `contain` range runs from "top edge reaches the
-   top of the screen" to "bottom edge reaches the bottom", and that is precisely
-   how long the pin lasts only when the sticky child is one screen tall. */
-.cat-pin {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-}
+.categories { padding: 96px 0 110px; }
 
 .band-title {
     color: #fff;
@@ -234,13 +209,11 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     margin: 0 auto 64px;
 }
 
-/* container-type gives the track a cqw unit that measures the real content
-   width, unlike 100vw which counts the scrollbar and would overshoot. */
-.cat-viewport {
-    container-type: inline-size;
-    overflow: hidden;
-}
+.cat-viewport { overflow: hidden; }
 
+/* No gutter padding: a marquee only tiles on a constant pitch, and a gutter puts
+   teal before the first card at rest but a card's tail there once it has moved,
+   which is a visible jump on every reset. A moving row has no first card anyway. */
 .cat-track {
     --card-w: 335px;
     --card-gap: 20px;
@@ -249,10 +222,11 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     display: flex;
     gap: var(--card-gap);
     width: max-content;
-    /* Percentages here resolve against the viewport element, so the first and
-       last cards line up with the page's container gutter. */
-    padding-inline: max(20px, calc((100% - 1280px) / 2 + 32px));
+    animation: cat-slide 45s linear infinite;
 }
+
+/* Let a card worth watching be watched. */
+.cat-viewport:hover .cat-track { animation-play-state: paused; }
 
 .cat-card {
     background: #fff;
@@ -272,21 +246,12 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 .cat-media img,
 .cat-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Travels exactly one set. Because the deck is laid out twice, that lands each
-   duplicate precisely where its original began, so the row reads as endless and
-   the lock can let go on a frame identical to the one it started on. */
+/* Drifts one set, then resets. With the deck laid out three times, every pass
+   lands exactly on the one before it at that instant, so the reset is invisible
+   and there is no end to reach. */
 @keyframes cat-slide {
-    to { transform: translateX(calc(-1 * var(--set-w))); }
-}
-
-@supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-        .cat-track {
-            animation: cat-slide linear both;
-            animation-timeline: --skills;
-            animation-range: contain 0% contain 100%;
-        }
-    }
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-1 * var(--set-w))); }
 }
 
 .cat-label {
@@ -732,27 +697,19 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 
 /* ---------- Responsive ---------- */
 
-/* Anywhere the lock does not run, the row must still be reachable, so it falls
-   back to a plain swipeable strip rather than a row you cannot get to the end of. */
+/* Where the row must not drift on its own (a phone, where it fights the swipe;
+   or reduced-motion) it becomes a plain swipeable strip: the gutter returns
+   because there is no loop to tile, and the extra passes go, since swiping the
+   same six three times would just look like a bug. */
 @media (max-width: 1024px), (prefers-reduced-motion: reduce) {
-    .categories { padding: 96px 0 110px; }
-    .categories::after { display: none; }
-    .cat-pin { position: static; height: auto; overflow: visible; }
     .cat-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .cat-viewport::-webkit-scrollbar { display: none; }
-    .cat-track { animation: none; }
+    .cat-track {
+        animation: none;
+        padding-inline: max(20px, calc((100% - 1280px) / 2 + 32px));
+    }
     .cat-card { scroll-snap-align: center; }
-    /* The second pass of the deck only exists to make the lock's loop seamless.
-       With no lock there is nothing to loop, and swiping past the same six a
-       second time would just look like a mistake. */
     .cat-card[data-dup] { display: none; }
-}
-
-@supports not (animation-timeline: view()) {
-    .categories { padding: 96px 0 110px; }
-    .categories::after { display: none; }
-    .cat-pin { position: static; height: auto; overflow: visible; }
-    .cat-viewport { overflow-x: auto; }
 }
 
 @media (max-width: 1024px) {
