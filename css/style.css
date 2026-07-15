@@ -209,7 +209,18 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     margin: 0 auto 64px;
 }
 
-.cat-viewport { overflow: hidden; }
+/* An endless row has no first card, so it cannot hold a hard gutter: cards must
+   enter and leave. Fading them out at both edges makes that reading right rather
+   than looking sliced. The mask lives here, not on the track, so it stays put
+   while the cards drift through it. */
+.cat-viewport {
+    overflow: hidden;
+    --fade: clamp(48px, 8vw, 140px);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade),
+                                        #000 calc(100% - var(--fade)), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 var(--fade),
+                                        #000 calc(100% - var(--fade)), transparent 100%);
+}
 
 /* No gutter padding here, deliberately. The loop only tiles if the cards repeat
    on an exact pitch: with a gutter, x=0 shows teal before the first card while
@@ -703,7 +714,15 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
    back because there is no loop to tile, and the duplicate set goes away because
    swiping the same six twice would just look like a bug. */
 @media (max-width: 1024px), (prefers-reduced-motion: reduce) {
-    .cat-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .cat-viewport {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        /* Nothing is drifting through it here, and a fade would just dim the card
+           you swiped to. */
+        -webkit-mask-image: none;
+                mask-image: none;
+    }
     .cat-viewport::-webkit-scrollbar { display: none; }
     .cat-track {
         animation: none;
