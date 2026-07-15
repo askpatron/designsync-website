@@ -207,7 +207,9 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     view-timeline-axis: block;
 }
 
-.categories::after { content: ''; display: block; height: 80vh; }
+/* Long enough to carry one full set (6 x 355px = 2130px) of sideways travel at
+   a little under 2px per px of scroll. Shorten this to release sooner. */
+.categories::after { content: ''; display: block; height: 130vh; }
 
 /* Exactly 100vh, which is what makes the timeline below line up: for a subject
    taller than the screen, the `contain` range runs from "top edge reaches the
@@ -240,8 +242,12 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 }
 
 .cat-track {
+    --card-w: 335px;
+    --card-gap: 20px;
+    --deck: 6;                                          /* skills in one set */
+    --set-w: calc(var(--deck) * (var(--card-w) + var(--card-gap)));
     display: flex;
-    gap: 20px;
+    gap: var(--card-gap);
     width: max-content;
     /* Percentages here resolve against the viewport element, so the first and
        last cards line up with the page's container gutter. */
@@ -253,7 +259,7 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     border-radius: var(--radius-card);
     padding: 12px 12px 0;
     overflow: hidden;
-    flex: 0 0 335px;
+    flex: 0 0 var(--card-w);
 }
 
 .cat-media {
@@ -266,10 +272,11 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 .cat-media img,
 .cat-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* Travels until its right edge meets the viewport's, so the last card lands on
-   the same gutter the first one started from. 100% is the track's own width. */
+/* Travels exactly one set. Because the deck is laid out twice, that lands each
+   duplicate precisely where its original began, so the row reads as endless and
+   the lock can let go on a frame identical to the one it started on. */
 @keyframes cat-slide {
-    to { transform: translateX(calc(100cqw - 100%)); }
+    to { transform: translateX(calc(-1 * var(--set-w))); }
 }
 
 @supports (animation-timeline: view()) {
@@ -735,6 +742,10 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .cat-viewport::-webkit-scrollbar { display: none; }
     .cat-track { animation: none; }
     .cat-card { scroll-snap-align: center; }
+    /* The second pass of the deck only exists to make the lock's loop seamless.
+       With no lock there is nothing to loop, and swiping past the same six a
+       second time would just look like a mistake. */
+    .cat-card[data-dup] { display: none; }
 }
 
 @supports not (animation-timeline: view()) {
