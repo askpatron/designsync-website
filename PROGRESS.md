@@ -74,6 +74,7 @@ This is the single most important thing to know before touching copy. The design
 - **Work** — four portfolio stills.
 - **FAQ** — twelve, replacing template questions about websites and SEO. Refund answer is the owner's policy.
 - **Footer** — closing CTA + legal links into the app.
+- **Live chat** — a "Chat with us" launcher. Tawk's script is **not** embedded; it loads on click (property `6a591c54940f101d53239d3b/1jtm1db40`), then maximises and our button steps aside. **Verified:** 0 requests to tawk.to on page load, exactly 1 after the click. **Unverified:** that the widget renders. From localhost the script is refused (`ERR_FAILED` / `ERR_BLOCKED_BY_ORB`) though the property is live and curl gets a clean 200 with `ACAO: *`. **Tawk's own verbatim snippet fails identically here**, which rules out our loader. Re-check on the real domain; if it still fails, look at domain restrictions in Tawk admin, not at this code.
 - **Headings** fill **letter by letter** on scroll (grey → ink). All letters share one timeline declared on the heading; per-letter `view()` would make line two lag line one for merely sitting lower.
 
 **Motion fallbacks are all the Figma.** No scroll-timeline support, or reduced-motion, or JS never running, leaves the designed state. Nothing depends on an animation.
@@ -93,7 +94,8 @@ This is the single most important thing to know before touching copy. The design
 ## Decided, for the record
 - **Never expose WhatsApp publicly** (matches D12: clients only, never on ads).
 - **Book a call = Cal.com.**
-- **Support = Tawk.to** (D18 already named it). Owner set it up 2026-07-15. Told them: their widget colour was `#0B9DA5`, brand is `#0D9DA4`.
+- **Support = Tawk.to** (D18 already named it). Owner set it up 2026-07-15, property `6a591c54940f101d53239d3b`. Loaded on click, never on page load. **Owner still needs to fix the widget colour: they have `#0B9DA5`, brand is `#0D9DA4`** (Tawk admin → Appearance). Their suggested messages are Tawk's defaults ("I have a question") and would earn more as real pre-sale questions.
+- **Once Tawk is confirmed live on the real domain**, write the "How do I reach a human?" FAQ, which is currently one of three deliberately left out.
 - **No cookie consent banner for now.** The banner is an EU ePrivacy requirement; NDPA has no equivalent, it needs a lawful basis + transparency, not a click-through. A banner on paid landing traffic costs conversions. **Revisit when expanding regions.** Recommended click-to-load for Tawk so nothing is tracked before a visitor asks for chat, which also keeps a heavy third-party script off the critical path.
 - **Not a lawyer.** Legal copy gets professional review, per the content brief.
 
