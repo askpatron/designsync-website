@@ -58,12 +58,22 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     to { color: var(--ink); }
 }
 
+/* One timeline per heading, declared here and inherited by its letters. Letters
+   must NOT each use their own view(), or line two would lag line one simply for
+   sitting lower; sharing the heading's timeline means the cascade comes purely
+   from the per-letter offset below. */
+.display { view-timeline-name: --head; view-timeline-axis: block; }
+
 @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
-        .display .muted {
+        .display .muted .ltr {
             animation: muted-resolve linear both;
-            animation-timeline: view();
-            animation-range: entry 35% cover 40%;
+            animation-timeline: --head;
+            /* Letter i of n takes its turn 30% of the way across the window, each
+               one filling over 6%. The overlap is what makes it a sweep rather
+               than a row of individual blinks. */
+            --at: calc(10% + (var(--i) / var(--n)) * 30%);
+            animation-range: cover var(--at) cover calc(var(--at) + 6%);
         }
     }
 }

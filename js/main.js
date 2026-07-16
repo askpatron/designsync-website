@@ -1,3 +1,55 @@
+// Split the grey half of each display heading into letters, so it can fill to
+// the ink colour one character at a time on scroll. The stagger itself is CSS
+// (see muted-resolve): all this does is create the letters and number them.
+//
+// If this never runs, the heading keeps its two-tone design state and nothing
+// looks broken.
+(function () {
+    document.querySelectorAll('.display .muted').forEach((muted) => {
+        const heading = muted.closest('.display');
+
+        // The letters are decoration; give the heading its real text so screen
+        // readers announce a sentence rather than a pile of spans. A <br> yields
+        // no whitespace in textContent, so swap them for spaces on a clone first,
+        // or the label reads "delivered,in three steps".
+        if (heading && ! heading.hasAttribute('aria-label')) {
+            const clone = heading.cloneNode(true);
+            clone.querySelectorAll('br').forEach((br) => br.replaceWith(' '));
+            heading.setAttribute('aria-label', clone.textContent.replace(/\s+/g, ' ').trim());
+        }
+
+        // Count the ink first: each letter needs to know its place in the whole
+        // to work out when its turn comes.
+        const nodes = Array.from(muted.childNodes);
+        const total = nodes.reduce((n, node) =>
+            node.nodeType === Node.TEXT_NODE ? n + node.textContent.replace(/\s/g, '').length : n, 0);
+        if (! total) return;
+
+        let i = 0;
+        nodes.forEach((node) => {
+            // Anything that is not text (a <br>, notably) passes through intact.
+            if (node.nodeType !== Node.TEXT_NODE) return;
+
+            const frag = document.createDocumentFragment();
+            for (const ch of node.textContent) {
+                // Spaces stay bare text nodes so the line still wraps normally.
+                if (/\s/.test(ch)) {
+                    frag.appendChild(document.createTextNode(ch));
+                    continue;
+                }
+                const span = document.createElement('span');
+                span.className = 'ltr';
+                span.textContent = ch;
+                span.style.setProperty('--i', i++);
+                frag.appendChild(span);
+            }
+            muted.replaceChild(frag, node);
+        });
+
+        muted.style.setProperty('--n', total);
+    });
+})();
+
 // Reveal sections as they scroll into view. CSS hides them only while html.js
 // is set, so any failure in here leaves the page fully visible rather than blank.
 (function () {
