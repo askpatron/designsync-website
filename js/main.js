@@ -1,3 +1,50 @@
+// Live chat, loaded on click rather than on page load.
+//
+// Tawk's own snippet fetches on page load and starts monitoring immediately.
+// That puts a third-party script and a websocket on the critical path of the
+// page we buy ad traffic for, for the small share who ever open chat, and it
+// tracks people before they have asked for anything. Deferring to the click
+// keeps the page fast and means there is nothing to consent to: the click IS the
+// request for the service.
+(function () {
+    const btn = document.querySelector('[data-chat]');
+    if (! btn) return;
+
+    const PROPERTY = '6a591c54940f101d53239d3b';
+    const WIDGET = '1jtm1db40';
+    let loading = false;
+
+    btn.addEventListener('click', () => {
+        if (loading) return;
+        loading = true;
+        btn.setAttribute('aria-busy', 'true');
+
+        window.Tawk_API = window.Tawk_API || {};
+        window.Tawk_LoadStart = new Date();
+
+        // Set before the script loads, or we miss the hook. The click already
+        // said "I want to chat", so open it rather than leave them a bubble to
+        // click a second time; Tawk's own launcher then replaces ours.
+        window.Tawk_API.onLoad = function () {
+            if (typeof window.Tawk_API.maximize === 'function') window.Tawk_API.maximize();
+            btn.remove();
+        };
+
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://embed.tawk.to/' + PROPERTY + '/' + WIDGET;
+        s.charset = 'UTF-8';
+        s.setAttribute('crossorigin', '*');
+        // Blocked by a shield, or offline: give the button back rather than
+        // leave a dead control.
+        s.onerror = () => {
+            loading = false;
+            btn.removeAttribute('aria-busy');
+        };
+        document.head.appendChild(s);
+    });
+})();
+
 // Split the grey half of each display heading into letters, so it can fill to
 // the ink colour one character at a time on scroll. The stagger itself is CSS
 // (see muted-resolve): all this does is create the letters and number them.
