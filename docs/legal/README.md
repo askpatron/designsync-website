@@ -1,6 +1,9 @@
-# Terms + Privacy | drafts for the owner
+# Terms, Privacy + Cookies | drafts for the owner
 
-Two drafts, written to be torn apart. **Nothing here is published yet.**
+Three drafts, written to be torn apart. **Nothing here is published yet.**
+
+Review copy, rendered and readable, with every blank and decision marked:
+<https://claude.ai/code/artifact/137106a4-fe51-4cca-bd4d-d9bc7d43c094> (private).
 
 **I am not a lawyer and these are not legal advice.** They are an honest, specific
 starting point that a lawyer can review in an hour instead of drafting from nothing.
@@ -37,8 +40,22 @@ Nothing publishes until every `[[PLACEHOLDER]]` is gone.
 | `[[DPO_OR_CONTACT]]` | Can be you. A DPO is only mandatory for a "controller of major importance", which you are not yet. |
 | `[[RECORD_RETENTION_YEARS]]` | Ask your accountant. Six is the usual answer. |
 | `[[STALE_REQUEST_DAYS]]` | Terms §12: how long a request can sit waiting on the client before you close it. Or delete the clause. |
+| `[[MARKETING_PIXEL]]` | Cookies §5. Stays empty until you decide on the Meta Pixel. See below. |
 
-## The three real decisions
+## Where the Cookie Policy lives
+
+Unresolved, and it needs a call. The app only knows two document types, `terms` and
+`privacy` (`LegalDocument::TYPES`), so a cookie policy **has no home in the admin editor**.
+Three options, in order of effort:
+
+1. **Fold it into the Privacy Policy** as a longer section 4. Free, and honestly fine at
+   this size.
+2. **Put it on the marketing site** as its own page. Quick, and it is where most of the
+   cookies actually are.
+3. **Add a third type to the app** so it is versioned and editable like the other two.
+   Cleanest; needs a deploy, and the app repo has another session working in it.
+
+## The real decisions
 
 **1. `[[IP_TERMS]]`, Terms §9.** Your pricing doc grants "commercial use". That is a
 licence, not ownership, and clients assume they are buying ownership. Both are
@@ -57,7 +74,22 @@ Worth knowing: **your own pricing doc lists motion graphics and video editing un
 "What's Not Included"**, and contradicts the plans we are selling on the site. One of
 the two is wrong.
 
-**3. `[[VISIT_RETENTION]]`, Privacy §6.** Today the true answer is "forever", because
+**3. `[[MARKETING_PIXEL]]`, Cookies §5. The Meta Pixel.** You raised this; it is not a
+small addition. Adding it makes **four statements in the Privacy Policy and the whole of
+Cookies §4 false**, all of which must be rewritten in the same change. It also **flips the
+no-banner decision**: a pixel is not necessary for the site to work, so legitimate interest
+does not cover it and consent is the only basis that fits, which means a real banner where
+refusing is as easy as accepting and actually stops the pixel loading. And the day an ad
+reaches a European, ePrivacy and the GDPR apply to that visitor, both stricter than the NDPA
+on exactly this.
+
+My recommendation: pixel on the marketing site behind a genuine consent banner, **Meta's
+Conversions API fired server-side from the Paystack webhook** for the numbers you will
+actually make decisions on (more accurate, survives ad blockers, and the pixel cannot see
+the payment anyway because it happens on Paystack), and nothing at all on the portal. Full
+reasoning in `cookie-policy.txt` §5.
+
+**4. `[[VISIT_RETENTION]]`, Privacy §6.** Today the true answer is "forever", because
 nothing in the app deletes page visits. I will not write a retention period the
 software does not enforce. Either publish the honest version, or let me add pruning
 and then publish a real number. The second is a small job.
@@ -82,6 +114,9 @@ Written from a survey of the app, not from a template:
 No advertising pixels, no third-party analytics, no data sales, no AI processing, and
 essential cookies only. That is a cleaner privacy position than almost any competitor,
 and it is why **no cookie banner is needed**. Worth saying out loud rather than burying.
+
+This is also the thing the Meta Pixel spends. It is worth spending if the ads pay, but
+spend it knowingly.
 
 The only US processors are Resend, Tawk.to and Google Fonts, and each is disclosed with
 what it receives and the basis for sending it there, per Part IX of the NDPA. Self

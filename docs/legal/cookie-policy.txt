@@ -1,0 +1,180 @@
+DESIGN SYNC | COOKIE POLICY
+
+Last updated: [[EFFECTIVE_DATE]]
+
+This explains the cookies we set and the ones other companies set through us. It
+covers our marketing site at trydesignsync.com and our client portal at
+app.trydesignsync.com. It sits alongside our Privacy Policy, which explains
+everything else we do with information about you.
+
+The short version. Our marketing site sets no cookies of its own. Our portal sets
+three, and it needs all three to sign you in and keep your account safe. We run no
+advertising cookies, no analytics cookies, and nothing that follows you around the
+internet. That is why you are not reading this over the top of a consent banner.
+
+
+1. WHAT A COOKIE IS
+
+A small file a website asks your browser to keep, so it can recognise your browser
+the next time it sees it. Some are necessary: without one, a site cannot tell that
+the person loading this page is the same person who logged in a minute ago. Others
+exist to build a picture of what you do across many different sites, which is what
+advertising cookies are for.
+
+We use the first kind. Today we use none of the second kind.
+
+
+2. OUR MARKETING SITE (trydesignsync.com)
+
+We set no cookies of our own here. There is nothing to accept and nothing to
+refuse.
+
+Two other companies are involved in loading this site, and you should know about
+both:
+
+  Google Fonts serves the typeface. It sets no cookie, but your browser has to ask
+  Google for the font file, so Google sees your IP address and the fact that you
+  loaded a page here. We can remove this entirely by hosting the font ourselves.
+
+  Tawk.to runs the live chat, and only if you click to open it. Its script is not
+  on the page until then. Once you open the chat, Tawk.to sets its own cookies so
+  it can recognise you between messages and keep your conversation together. Those
+  cookies are Tawk.to's, and its policy is at tawk.to/privacy-policy. If you never
+  open the chat, none of them are set.
+
+  That is deliberate. The chat is useful, and it is also a third party that would
+  otherwise watch every visitor for the sake of the few who ever say hello. Making
+  it load on click means your click is the permission.
+
+
+3. OUR PORTAL (app.trydesignsync.com)
+
+Three cookies, all ours, all necessary. There is no version of a working login
+that does not use them.
+
+  designsync-session
+  What it does: signs you in and keeps you signed in while you use the portal.
+  Lasts: 120 minutes of inactivity.
+
+  XSRF-TOKEN
+  What it does: proves a form was submitted from our page and not from a hostile
+  site pretending to be you. It is a security control, not a tracker.
+  Lasts: your browsing session.
+
+  remember_web_[hash]
+  What it does: keeps you signed in between visits. Set only if you tick
+  "remember me" when you log in. If you do not tick it, it is never set.
+  Lasts: a long time, which is the point of it. Log out to clear it.
+
+None of these follow you to any other website. They are readable only by us, and
+they contain no information about you beyond an identifier for your session.
+
+
+4. WHAT WE DO NOT USE
+
+Today, and stated plainly because it is unusual enough to be worth stating:
+
+  No advertising or retargeting pixels
+  No third party analytics, no Google Analytics, no Meta Pixel
+  No data brokers, no audience sharing, no data sales
+  No cookies that follow you to any other website
+
+If you have ever looked at a product once and then seen it chase you across the
+internet for a fortnight, that is the thing we are not doing.
+
+
+5. IF WE START ADVERTISING
+
+[[MARKETING_PIXEL]]
+
+  OWNER: READ THIS BEFORE YOU ADD THE PIXEL, NOT AFTER.
+
+  This section is deliberately empty. If a Meta Pixel goes onto the marketing
+  site, it gets filled in and four things happen at once:
+
+  1. Section 4 above becomes false, and so do four separate statements in the
+     Privacy Policy. All of them have to be rewritten in the same change, not
+     later. Publishing "we run no advertising cookies" while running one is the
+     kind of statement that turns a small problem into a real one.
+
+  2. You need a consent banner, and the pixel must not load until someone
+     accepts. This is the whole reason we do not have one today. A pixel is not
+     necessary for the site to work, it exists to track people for advertising,
+     and no honest reading of "legitimate interest" under section 25 of the NDPA
+     covers it. Consent is the only basis that fits. It also has to be a real
+     choice: refusing must be as easy as accepting, and refusing must actually
+     stop the pixel loading.
+
+     You told me you intend to expand to other regions. The day you run an ad
+     that a European sees, ePrivacy and the GDPR apply to that visitor, and both
+     are much stricter than the NDPA about exactly this. Building the banner
+     properly the first time is cheaper than retrofitting it under pressure.
+
+  3. Meta becomes a recipient of your visitors' data, in the United States, and
+     the Privacy Policy has to name it in section 3 and account for the transfer
+     under Part IX. Meta is not a company anyone regards as a cautious steward of
+     personal data, and that is now your disclosure to make, not theirs.
+
+  4. The banner will cost you conversions on the paid traffic the pixel exists to
+     measure. That is a real trade, not a technicality. It is worth making with
+     your eyes open.
+
+  WHAT I RECOMMEND INSTEAD, OR AT LEAST ALONGSIDE.
+
+  The thing you actually want is to know which ads produce paying clients. A
+  browser pixel is a poor way to get that and getting worse: iOS blocks a lot of
+  it, ad blockers take more, and the pixel cannot see the payment anyway, because
+  the payment happens on Paystack.
+
+  Meta's Conversions API sends the conversion from our server instead of from the
+  visitor's browser. We already have the exact moment a purchase completes: the
+  Paystack webhook. Sending it from there is more accurate than a pixel, survives
+  ad blockers, and never puts a third party script on your checkout.
+
+  It is not a consent-free option. It is still personal data going to Meta, so it
+  still needs a lawful basis and a disclosure. But it is the better instrument for
+  the job, and it keeps the tracking off the pages where a stranger is typing
+  their phone number into a form.
+
+  My suggestion: pixel on the marketing site behind a genuine consent banner, the
+  Conversions API from the Paystack webhook for the numbers you will actually
+  make decisions on, and nothing whatsoever on the portal, where people are
+  logged in and working.
+
+  Decide, and I will write this section and fix the Privacy Policy in one change.
+
+
+6. CONTROLLING COOKIES
+
+Every browser lets you see the cookies a site has set, delete them, and refuse
+new ones. Look in the privacy or security section of your browser's settings.
+
+Be aware of the trade: the three cookies in section 3 are how the portal knows who
+you are. Block them and you cannot log in. That is not us being difficult, it is
+what those cookies are for.
+
+To get rid of the chat's cookies, clear the site's cookies in your browser.
+
+
+7. DO NOT TRACK AND GLOBAL PRIVACY CONTROL
+
+Some browsers can send a signal asking sites not to track you. There is no agreed
+standard for what a site must do about it, and most sites ignore it.
+
+We do not need to honour it, because we do not track you in the first place. If
+that ever changes, we will honour a Global Privacy Control signal as a refusal of
+consent, and this section will say so specifically rather than in the abstract.
+
+
+8. CHANGES
+
+We may update this policy. Every version is numbered and dated. If we ever add a
+cookie that is not strictly necessary, we will not do it quietly: you will be
+asked first, because asking is a legal requirement and not a courtesy.
+
+
+9. CONTACT
+
+  [[LEGAL_ENTITY_NAME]]
+  [[REGISTERED_ADDRESS]]
+  [[SUPPORT_EMAIL]]
