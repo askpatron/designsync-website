@@ -428,6 +428,28 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
 }
 
+/* The naira glyph's crossbars run to the very edge of its advance width, so the
+   brand's tight tracking drags the next digit into them and the price reads as
+   struck through. Reset the tracking on the symbol only: the digits keep their
+   tight setting, the bars get their clearance. */
+.cur { letter-spacing: 0.02em; }
+
+/* The paid demo, sitting between the plans and the inclusions. */
+.price-demo {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 15.5px;
+    color: var(--grey-body);
+}
+.price-demo strong { color: var(--ink); font-weight: 500; }
+.price-demo a {
+    color: var(--teal);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    margin-left: 4px;
+}
+
 .included-card {
     background: #fff;
     border-radius: var(--radius-card);
@@ -435,7 +457,18 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     margin-top: 24px;
     display: grid;
     grid-template-columns: 1fr 2.2fr;
-    gap: 32px;
+    gap: 32px 32px;
+}
+
+/* Scope honesty: what the plans do NOT cover. Spans both columns under the
+   inclusions, so it reads as a footnote to them rather than a feature. */
+.not-included {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--grey-soft);
 }
 
 .included-card h3 { font-size: 22px; }
