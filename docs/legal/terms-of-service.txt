@@ -1,0 +1,302 @@
+DESIGN SYNC | TERMS OF SERVICE
+
+Last updated: [[EFFECTIVE_DATE]]
+
+These terms are an agreement between you and [[LEGAL_ENTITY_NAME]] ([[RC_NUMBER]]),
+trading as Design Sync, of [[REGISTERED_ADDRESS]] ("Design Sync", "we", "us", "our").
+
+They apply when you buy a package or a subscription, submit a design request, or
+use the client portal at app.trydesignsync.com.
+
+When you tick the box at checkout, you accept these terms. We record which version
+you accepted, when you accepted it, and the IP address you accepted it from.
+
+
+1. WHAT WE DO
+
+Design Sync is a graphics design service. You buy a set number of designs, either
+as a one-off package or as a monthly subscription. You send requests through the
+portal, we design them, and we deliver the finished artwork back to you there.
+
+We are a design service, not a design employee, an agency of record, or an
+advertising agency. We do not provide legal, medical, financial, or regulatory
+advice about anything we design for you.
+
+
+2. WHAT COUNTS AS ONE DESIGN
+
+One slot equals one final design.
+
+These are each one design:
+  Instagram post
+  Facebook banner
+  Flyer
+  Poster
+  Business card
+  Roll-up banner
+  Certificate
+  Invitation card
+  Price list
+  Restaurant menu
+  Presentation slide deck cover
+
+These are NOT one design. Each item below is counted separately:
+  A flyer plus an Instagram version of it
+  The front and the back of a flyer
+  A logo plus a business card
+  An Instagram post plus a story version of it
+  Three carousel slides
+
+[[MOTION_COUNTS]]
+  OPEN QUESTION FOR THE OWNER, NOT FOR PUBLICATION.
+  The plans say they cover motion, but this section cannot say what a motion
+  piece costs against a quota. On Growth Monthly a slot is worth 85,000 divided
+  by 15, which is 5,667 naira. If one animated video is one slot, a client can
+  spend all 15 slots on video for the same price as 15 static posts. Decide the
+  rule, then this section states it.
+
+
+3. WHAT IS INCLUDED
+
+  Professional graphic design
+  Licensed fonts
+  Stock elements, where applicable
+  PNG, JPG and PDF exports
+  Commercial use of the finished design, as described in section 9
+
+
+4. WHAT IS NOT INCLUDED
+
+These are outside every package and every subscription. We quote them separately:
+
+  Logo design
+  Brand identity projects
+  Websites and UI/UX design
+  3D design
+  Copywriting
+  Printing
+
+Logo design and brand identity are a separate, exclusive service. A graphics
+package never covers them, whatever the request says.
+
+Your project manager tells you if a request falls outside your plan before any
+work starts. You are never charged for out-of-scope work you did not agree to.
+
+
+5. TURNAROUND
+
+Turnaround is counted in working days, Monday to Friday, excluding Nigerian public
+holidays. It starts when we have everything we need from you: the brief, the copy,
+the logo files, the photographs, and anything else the design depends on. If we
+have to come back to you for missing material, the clock starts when it arrives.
+
+Standard turnaround for graphics is 24 to 48 hours. Priority queues on the paid
+plans are faster in practice but are not a separate guarantee.
+
+[[MOTION_TURNAROUND]]
+  OPEN QUESTION FOR THE OWNER, NOT FOR PUBLICATION.
+  Motion is not a 24 to 48 hour job and this section must not imply that it is.
+
+If we miss an agreed turnaround without telling you in advance, section 10 applies.
+
+
+6. REVISIONS
+
+A revision means changing an existing design. It does not mean asking for a
+completely new concept from scratch.
+
+  Growth Monthly: 2 revisions for each design
+  Business Monthly: 3 revisions for each design
+  Starter and fixed packages: as stated on the package you bought
+
+Revisions beyond your allowance are 2,000 naira each. A brief that changes after
+work has started is new work, not a revision, and we tell you so before we do it.
+
+
+7. YOUR PLAN
+
+Quota. Your plan includes a set number of designs in each period. Unused designs
+do not roll over into the next period. They expire.
+
+Renewal. A monthly subscription renews automatically each month, at the same
+price, until you cancel it.
+
+Cancelling. You can cancel from the portal at any time. Cancelling stops the next
+charge. It does not refund the period you have already paid for, and you keep your
+remaining designs for the rest of that period.
+
+Failed payment. If a renewal charge fails, you have a 3 day grace period. Your
+plan stays usable during it. If payment has not succeeded by the end of the grace
+period, the plan stops until it does.
+
+Price changes. If we change the price of a plan, we tell you at least 30 days
+before it affects your renewal. You can cancel before then.
+
+Add-ons, at the prices shown on the site when you order:
+  Extra revision            2,000 naira
+  12 hour rush delivery     5,000 naira
+  Source file (AI or PSD)   5,000 naira
+  Resize to another size    2,000 naira
+  Additional concept        3,500 naira
+
+
+8. PAYMENT
+
+Prices are in Nigerian naira and include no taxes unless we say so on the invoice.
+
+Payment is taken by Paystack. We never see or store your card details. Work starts
+when payment has cleared, or when we say so in writing, and not before.
+
+For a fixed package you tell us what you need, we send an invoice, and we start
+when you pay it.
+
+
+9. YOUR MATERIAL, AND RIGHTS IN THE DESIGN
+
+Your material. Anything you send us, your logo, your photographs, your copy, your
+brand assets, stays yours. You confirm you have the right to give it to us and
+that our using it to make your design does not infringe anyone else's rights. You
+are responsible for that material, including any claim arising from it.
+
+The finished design. When you have paid in full, you get the right to use the
+finished design commercially: to publish it, print it, run it as an advertisement,
+and use it as your own marketing material, with no time limit and no extra fee.
+
+What that right does not include:
+  Fonts and stock elements are licensed to us by their owners, not sold to you.
+  Your right to use them is inside the finished design. It does not extend to
+  extracting them and using them somewhere else.
+  Source files (AI, PSD) are a 5,000 naira add-on. Without that add-on you get the
+  exported artwork, not the working file.
+
+[[IP_TERMS]]
+  OPEN QUESTION FOR THE OWNER, NOT FOR PUBLICATION.
+  The pricing document grants "commercial use". That is a licence, not a transfer
+  of ownership, and the two are different things. A business buyer will eventually
+  ask "do I own this?" and the honest answer today is "you have the right to use
+  it commercially, we retain the copyright."
+  Decide which you are selling:
+    (a) A commercial licence, which is what the wording above describes. It is
+        cheaper for you and normal for a subscription service. Say it plainly.
+    (b) Assignment of copyright on full payment. This is what most clients assume
+        they are buying. Under section 28 of the Copyright Act 2022 an assignment
+        must be in writing and signed to be effective, so this clause alone would
+        not do it. It would need to be handled properly.
+  Do not leave this ambiguous. Ambiguity here is what disputes are made of.
+
+Our portfolio. We may show work we have made for you in our portfolio, on this
+site, and on our social media. If you need work kept private, tell us and we will
+keep it out. We never publish anything you have told us is confidential.
+
+
+10. IF WE MISS A DEADLINE
+
+If we miss an agreed turnaround without telling you in advance, you get either a
+free design credit or a partial credit on your account. We agree which with you.
+
+This is your remedy for a late delivery.
+
+
+11. REFUNDS
+
+Before work starts, you can have a refund, less the payment gateway's fees. We do
+not control those fees and cannot return them.
+
+After design work has started, there are no refunds. Section 10 covers a missed
+deadline, and section 6 covers a design that is not right yet: that is what the
+revisions are for.
+
+A subscription is not refunded for a period you did not use. Cancel before the
+next renewal instead.
+
+
+12. WHAT WE NEED FROM YOU
+
+We need a clear brief, the material the design depends on, and a decision when we
+send work back. If a request has been waiting on you for [[STALE_REQUEST_DAYS]]
+days we may close it. Closing it does not return the slot.
+
+  OWNER: pick a number here, or delete this paragraph. It exists because
+  "the client went quiet for five weeks" is a real thing that happens, and this
+  is the only clause that says what happens to the slot when it does.
+
+
+13. ACCEPTABLE USE
+
+Do not ask us to design anything illegal, anything that infringes someone else's
+trade mark or copyright, anything that harasses or defames a person, or anything
+that is a scam. We refuse those requests, and if a request is refused for this
+reason it does not return the slot.
+
+Do not resell your plan or pass your portal login to a third party to use as their
+own design service.
+
+
+14. SHARE LINKS
+
+The portal can produce a share link for a file so you can send it to someone
+without a login. Anyone who has that link can open and download that file. Treat a
+share link like a key: send it to the people who should have it, and no one else.
+
+We are not responsible for what happens to a file after you share the link to it.
+
+
+15. AVAILABILITY
+
+We aim to keep the portal available, but we do not promise it will never be down.
+We may take it offline for maintenance. We are not liable for a delay caused by
+something outside our reasonable control, including a power failure, an internet
+outage, or the failure of a third party service we depend on.
+
+
+16. LIABILITY
+
+Nothing in these terms limits liability for fraud, for death or personal injury
+caused by negligence, or for anything else that cannot be limited under Nigerian
+law.
+
+Subject to that, our total liability to you for any claim connected with these
+terms is limited to the amount you paid us in the 3 months before the claim arose.
+
+We are not liable for lost profit, lost revenue, lost business, lost data, or any
+indirect or consequential loss.
+
+We are not liable for what a design costs you after you publish it. You approve
+every design before it goes out. Check the spelling, the price, the date, and the
+phone number.
+
+
+17. ENDING THIS AGREEMENT
+
+You can cancel from the portal at any time.
+
+We can end this agreement, and refund any period you have paid for and not used,
+if you break these terms, if you do not pay, or if you are abusive to our team.
+
+Sections 9, 16 and 18 survive the end of this agreement.
+
+
+18. CHANGES TO THESE TERMS
+
+We may update these terms. Every version is numbered and dated, and the version
+you accepted is recorded against your account. If a change materially affects you,
+we tell you before it applies to your next renewal.
+
+
+19. GOVERNING LAW
+
+These terms are governed by the laws of the Federal Republic of Nigeria, and the
+courts of [[COURT_STATE]] have exclusive jurisdiction.
+
+  OWNER: this is normally the state where the business is registered.
+
+We would rather solve a problem by talking to you than by going anywhere near a
+court. Email us first.
+
+
+20. CONTACT
+
+  [[LEGAL_ENTITY_NAME]]
+  [[REGISTERED_ADDRESS]]
+  [[SUPPORT_EMAIL]]
+  [[SUPPORT_PHONE]]

@@ -83,11 +83,11 @@ This is the single most important thing to know before touching copy. The design
 
 ## Blocked on the owner
 
-1. **How motion counts against a monthly quota** — the plans say "graphics, social and motion" but cannot say what a motion piece costs. At ₦85,000 ÷ 15 = **₦5,667 a slot**, a client could spend all 15 on animated video, the same price as a source-file add-on. The FAQ deliberately does not answer this. *(Open in the campaign plan as `[[MOTION_COUNTS]]` since 10 July.)*
+1. **How motion counts against a monthly quota** — the plans say "graphics, social and motion" but cannot say what a motion piece costs. At ₦85,000 ÷ 15 = **₦5,667 a slot**, a client could spend all 15 on animated video, the same price as a source-file add-on. The FAQ deliberately does not answer this, and now nor do the Terms. *(Open in the campaign plan as `[[MOTION_COUNTS]]` since 10 July.)* **Note the contradiction:** the owner's own pricing doc lists motion graphics and video editing under "What's Not Included", while the plans we sell include motion. One of the two is wrong.
 2. **`[[MOTION_TURNAROUND]]`** — motion is not 24 to 48 hours.
 3. **`[[IP_TERMS]]`** — the doc grants *commercial use*, which is not ownership transfer. A business buyer will ask.
 4. **Cal.com link** for "Book a call". Decided (Cal.com, never WhatsApp), URL not supplied, so the button is not on the page rather than pointing nowhere.
-5. **Terms + Privacy** — needs legal entity name + RC, registered address, support email, phone. Owner disagrees with parts of the pricing doc's policies and wants a proposal to edit.
+5. **Terms + Privacy** — **drafted, see `docs/legal/`.** Not published: 16 placeholders to fill, starting with legal entity name + RC, registered address, support email, phone. Three real decisions in `docs/legal/README.md`: the IP terms, how motion counts, and the visit-retention period. The app already has the machinery (`/admin/legal` publishes, `/terms` + `/privacy` render, checkout blocks payment without a tick), and both pages currently say "being finalised". **Plain text, not markdown**: the editor is a textarea and the page renders escaped `whitespace-pre-wrap`.
 6. **Testimonials** — owner is designing a hover-to-reveal video treatment (2-3 client videos, highlighted quote, hover plays). Section untouched until that lands.
 7. **Host + git remote.** Local-only. It cannot go live.
 
@@ -98,6 +98,17 @@ This is the single most important thing to know before touching copy. The design
 - **Once Tawk is confirmed live on the real domain**, write the "How do I reach a human?" FAQ, which is currently one of three deliberately left out.
 - **No cookie consent banner for now.** The banner is an EU ePrivacy requirement; NDPA has no equivalent, it needs a lawful basis + transparency, not a click-through. A banner on paid landing traffic costs conversions. **Revisit when expanding regions.** Recommended click-to-load for Tawk so nothing is tracked before a visitor asks for chat, which also keeps a heavy third-party script off the critical path.
 - **Not a lawyer.** Legal copy gets professional review, per the content brief.
+
+## Found in the app while drafting the legal docs (app-side, not this repo)
+
+Surveyed rather than assumed, because a privacy policy that describes a different app is worse than none. Each of these constrains what the policy is allowed to claim:
+
+- **Nothing ever prunes `page_visits`.** No Prunable trait, no scheduled prune. Rows live forever, so no retention period can be published until pruning exists. Small job, worth doing.
+- **No account-deletion or client-deletion route exists.** The cascades are defined in the schema but nothing triggers them. NDPA still grants the right, so the policy commits to honouring erasure **by hand** and says so plainly. That is now a promise the business must keep.
+- **Portal analytics are identified, not anonymous.** `TrackVisit` stores `user_id` + `client_id`; the code comments claiming anonymity are only true for logged-out traffic.
+- **Files are on the server's local disk** (`storage/app/private`), not S3, and **share links are unauthenticated capability URLs**. Both disclosed rather than papered over.
+- **`MAIL_MAILER=log` in every committed env file** while `DEPLOYMENT.md` says production uses Resend. Confirm the production `.env` before the policy names Resend.
+- Good news worth using: no ad pixels, no third-party analytics, no data sales, no AI processing, essential cookies only. Cleaner than most competitors.
 
 ## Known, not urgent
 - `#999999` on white is **2.85:1**, under the 3:1 WCAG AA needs even for large text. The scroll fill resolves it on the way past, but any heading a visitor never reaches stays grey.

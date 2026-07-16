@@ -1,0 +1,255 @@
+DESIGN SYNC | PRIVACY POLICY
+
+Last updated: [[EFFECTIVE_DATE]]
+
+This policy explains what we do with information about you. It covers our website
+at trydesignsync.com and our client portal at app.trydesignsync.com.
+
+The data controller is [[LEGAL_ENTITY_NAME]] ([[RC_NUMBER]]), trading as Design
+Sync, of [[REGISTERED_ADDRESS]]. That means we decide what is collected and why,
+and we are answerable for it under the Nigeria Data Protection Act 2023.
+
+If you want anything here explained, email [[SUPPORT_EMAIL]]. A real person reads
+it.
+
+
+1. WHAT WE COLLECT
+
+When you visit the marketing site, and do nothing else:
+  The page you looked at, and the site you arrived from
+  A visitor identifier, which is a one way hash and is not your IP address
+  Nothing else. There is no advertising pixel and no third party analytics.
+
+When you start a purchase or an onboarding form:
+  Your name, your email address, your phone number
+  Your business name
+  Which plan you chose
+  The terms and privacy versions you accepted, the time you accepted them, your
+  IP address, and your browser's user agent string. This is the record that you
+  agreed, so it is deliberately more than we collect elsewhere.
+
+When you pay:
+  Paystack takes the payment. Your card number never reaches us and we never
+  store it. We keep the payment reference, the amount, and your email address.
+
+When you have an account and use the portal:
+  Your login email and a hashed password. We cannot read your password.
+  Your session, which stores your IP address and your user agent
+  The pages you visit in the portal, recorded against your account and your
+  business. This is not anonymous. We know it is you.
+  Your requests, your briefs, your comments, and the files you upload
+
+When you open the chat:
+  Nothing happens until you click. The chat is provided by Tawk.to and its script
+  is not loaded until you ask for it. Once you do, Tawk.to collects what you type,
+  your IP address, and its own cookies. See section 4.
+
+If you work for us, or with us, as staff or a contractor:
+  We also hold your job title, your employment type, your start date, and your
+  pay. That is held for employment and payroll, and is seen only by the people who
+  need it.
+
+We do not ask for and do not want your health data, your religion, your political
+views, your biometrics, or anything else the Act treats as sensitive. Please do
+not put any of it in a design brief.
+
+
+2. WHY WE HOLD IT, AND ON WHAT BASIS
+
+Under section 25 of the Act we need a lawful basis for each purpose. Ours are:
+
+  To provide the service you bought, to take payment, and to deliver your designs.
+  Basis: performance of a contract with you.
+
+  To send you service email: invoices, receipts, one time login codes, and
+  notifications about your requests.
+  Basis: performance of a contract. These are not marketing and you cannot opt out
+  of them while you have an account, because they are how the service works.
+
+  To keep records of what you agreed to and when.
+  Basis: our legitimate interest in being able to show what was agreed, and our
+  legal obligation to keep business records.
+
+  To understand which pages people use, so we can improve the service.
+  Basis: our legitimate interest in running and improving our own business. We
+  have kept this deliberately small: no third party analytics, no advertising
+  network, no profile of you built for sale or for targeting.
+
+  To answer you when you open the chat.
+  Basis: your consent. Clicking the chat button is the consent, and it is why the
+  chat loads nothing until you click.
+
+  To keep the service secure and to investigate abuse.
+  Basis: our legitimate interest in protecting the service and our clients.
+
+
+3. WHO WE SHARE IT WITH
+
+We do not sell your data. We do not share it for anyone else's advertising. It
+goes to the companies below because the service cannot run without them, and to no
+one else.
+
+  Paystack, to take payment.
+  Receives: your email address, the amount, and the payment reference.
+  Where: Nigeria.
+
+  Resend, to send email.
+  Receives: your email address and the content of the message we send you.
+  Where: United States.
+
+  Tawk.to, to run the live chat, and only after you click to open it.
+  Receives: what you type, your IP address, and its own cookies.
+  Where: United States.
+
+  Google Fonts, which serves the typeface on our marketing site.
+  Receives: your IP address, because your browser requests the font file.
+  Where: United States.
+
+  [[HOSTING_PROVIDER]], which runs our server and stores our database and files.
+  Where: [[HOSTING_LOCATION]].
+
+  OWNER: name the host and where the server physically is. It matters for the
+  next section and it is a question a serious client will ask.
+
+We also hand over data if the law requires it, for example a court order, or a
+lawful request from the Nigeria Data Protection Commission. If we can tell you, we
+will.
+
+If the business is ever sold or merged, your data goes with it, and you will be
+told before that happens.
+
+
+4. COOKIES
+
+The marketing site sets no cookies of its own. No banner, because there is nothing
+to consent to.
+
+The portal sets these, and it needs all of them to work:
+  designsync-session   keeps you logged in during a visit. 120 minutes.
+  XSRF-TOKEN           stops a hostile site submitting forms as you.
+  remember_web_*       set only if you tick "remember me" at login. Long lived.
+
+There are no advertising cookies and no tracking cookies anywhere on either site.
+
+If you open the chat, Tawk.to sets its own cookies to recognise you across
+messages. Those are Tawk.to's, and its policy is at tawk.to/privacy-policy. That
+is the whole reason the chat loads on click and not on page load: nothing of
+Tawk.to's touches you unless you ask for it.
+
+
+5. SENDING DATA OUTSIDE NIGERIA
+
+Resend, Tawk.to and Google are in the United States, so some of your data is
+processed there. Part IX of the Act covers this.
+
+The United States is not currently the subject of an adequacy decision by the
+Commission. We rely on section 43(1)(b) of the Act: the transfer is necessary to
+perform the contract we have with you, or, for the chat, on your consent under
+section 43(1)(d). We have satisfied ourselves that each of these providers is a
+serious operator with published security practices and its own data processing
+terms.
+
+If you would rather not have your data go to any of them, do not use the chat, and
+tell us at [[SUPPORT_EMAIL]] so we can talk about the rest.
+
+
+6. HOW LONG WE KEEP IT
+
+  Your account and your business records: for as long as you are a client, and
+  then for [[RECORD_RETENTION_YEARS]] years afterwards, because tax and company
+  law require us to keep records of what we sold and to whom.
+
+  OWNER: six years is the usual answer under Nigerian tax record keeping rules.
+  Confirm it with your accountant rather than taking my word for it.
+
+  Your design files: for as long as your account is open, unless you delete them
+  or they were uploaded with an expiry date, in which case they are deleted
+  automatically when it passes.
+
+  Your consent records: kept, because their whole purpose is to be evidence of
+  what you agreed to. They survive the deletion of your account.
+
+  Login codes: minutes. They expire and are stored hashed.
+
+  Page visit records: [[VISIT_RETENTION]]
+
+  OWNER, AND THIS ONE IS NOT COSMETIC: today the honest answer is "forever",
+  because nothing in the app ever deletes them. Do not publish a number here that
+  the software does not enforce, because publishing "we keep them for 12 months"
+  while keeping them for ever is exactly the kind of statement that turns a small
+  problem into a real one. Either
+    (a) write "for as long as we operate the service", which is true and which a
+        reader is entitled to find unsatisfying, or
+    (b) let me add automatic pruning to the app, and then state the real number.
+  (b) is a small change and it is the better answer.
+
+
+7. SECURITY
+
+Passwords are hashed, never stored as text. The site is served over HTTPS. Your
+design files are not on a public URL: they sit in private storage on our server
+and are served only to people the portal has authorised.
+
+The exception is a share link, which you create yourself when you want to send a
+file to someone without a login. That link is the permission. Anyone who has it
+can open the file. Send it carefully.
+
+No service is perfectly secure, and anyone who tells you otherwise is selling
+something. If we ever have a breach that is likely to harm you, we will tell you
+and the Commission, as section 40 of the Act requires.
+
+
+8. YOUR RIGHTS
+
+Under the Act you can:
+
+  Ask what we hold about you, and get a copy
+  Have something wrong corrected
+  Ask us to delete your data
+  Ask us to stop or restrict what we do with it
+  Object to processing we do on the basis of legitimate interest
+  Ask for your data in a portable form
+  Withdraw consent, where consent is the basis. For the chat, that is your browser
+  settings and asking Tawk.to.
+
+To use any of these, email [[SUPPORT_EMAIL]]. We answer within 30 days. It is
+free, unless a request is repetitive or excessive, in which case we will tell you
+before charging anything.
+
+Being straight with you about deletion: there is no button for this yet. Ask us by
+email and a person does it by hand. That is a real commitment and we honour it,
+but it is manual, so it takes days rather than seconds. Some things survive a
+deletion request: your consent record, and any invoice we are legally required to
+keep. We will tell you exactly what was kept and why.
+
+We do not make any decision about you by automated means. No algorithm decides
+your price, your priority, or whether we work with you. People do.
+
+If we get this wrong, tell us first and give us the chance to fix it. If we do not
+fix it, you can complain to the Nigeria Data Protection Commission at ndpc.gov.ng.
+
+
+9. CHILDREN
+
+The service is for businesses. It is not for children, we do not knowingly collect
+anything about anyone under 18, and if we discover we have, we delete it.
+
+
+10. CHANGES
+
+We may update this policy. Every version is numbered and dated on this page. If a
+change matters to you, we tell you rather than quietly editing it.
+
+
+11. CONTACT
+
+  [[LEGAL_ENTITY_NAME]]
+  [[REGISTERED_ADDRESS]]
+  [[SUPPORT_EMAIL]]
+  [[SUPPORT_PHONE]]
+
+  Data protection contact: [[DPO_OR_CONTACT]]
+
+  OWNER: the Act requires a Data Protection Officer only for a data controller of
+  major importance, which you are not yet. Naming a person who answers privacy
+  email is still worth doing, and it can be you.
