@@ -4,11 +4,11 @@ The public marketing site for the **Graphics on Demand** service. Separate from 
 
 **It does not go at the root.** `trydesignsync.com` is already live and is a different business: "Design Sync | Product Design & Technology Studio", an agency selling bespoke projects. This site sells a productised subscription with a ₦15,000 entry price. Different buyers, and different price anchors that should not share a roof.
 
-**Recommended home: `graphics.trydesignsync.com`** (owner to confirm; DNS free as of 2026-07-17). Named after the product, matches the existing `app.` convention, and expresses the boundary the owner already enforces (branding is exclusive, graphics never entertains it). Avoid `start.` (collides with the app's `/start` flow) and `get.`/`go.` (say nothing). Staying on `trydesignsync.com` also lets a consent cookie scoped to `.trydesignsync.com` be shared with the app, so an accept on the landing page carries into checkout. A subfolder (`trydesignsync.com/graphics`) would be better for SEO but couples deploys to the studio site's host; paid traffic does not care about domain authority.
+**Approved home: `designs.trydesignsync.com`.** This campaign is limited to recurring graphic-design support. The premium agency website at `trydesignsync.com` remains unchanged, while `app.trydesignsync.com` continues to handle CRM, onboarding, billing and client portals.
 
 **Stack:** static HTML + CSS + vanilla JS, no build step. Deploy = upload the folder.
 **Local:** `preview_start designsync-website` → http://localhost:8110 (port is in the workspace `.claude/launch.json`).
-**Status:** built, not launched. **No git remote and no host yet.**
+**Status:** built, not launched. Existing VPS selected; DNS, nginx, SSH access, and a git remote are not configured yet.
 
 > The preview pane caches `style.css` and `main.js` aggressively and has served stale copies repeatedly. Hard-reload, or verify with headless Chrome (a fresh profile), before believing something is broken.
 
@@ -27,22 +27,21 @@ Teal **`#0D9DA4`** (no yellow) · black `#101010` · **Inter Tight Medium (500)*
 
 ---
 
-## The offer, as sold (decided 2026-07-15)
+## The offer, as sold (updated 2026-07-20)
 
 | | |
 |---|---|
-| **Growth Monthly** | ₦85,000/mo · 15 designs · 2 revisions each · priority support |
-| **Business Monthly** | ₦150,000/mo · 30 designs · 3 revisions each · highest priority · dedicated PM · monthly strategy check-in |
-| **Starter** | ₦15,000 · 2 social media designs · the paid entry offer, **never call it a demo** |
+| **Growth Plan** | ₦150,000/mo · 15 designs · one active task at a time · typical 24–48 hour turnaround |
+| **Business Monthly** | ₦240,000/mo · 20 designs · one active task at a time · highest-priority handling · dedicated PM · monthly strategy check-in |
 
-- **The two monthlies are the only plans on the landing page.** Other packs exist in the pricing doc; a compare page can come later.
-- **In the plans:** general graphics, social media, motion.
+- **Growth and Business Monthly are the approved public recurring plans shown on the landing page.** Private custom plans are never listed publicly.
+- **In the plan:** general print and digital graphics, suitable AI-generated images, available licensed fonts and suitable Unsplash images.
 - **Branding + logo design is a separate exclusive package, NOT ready.** General graphics must never entertain it.
-- **Out, quoted separately:** logo/brand identity, websites and UI/UX, 3D, copywriting, printing.
+- **Out of scope:** branding/logo design, motion graphics/animation, website or app design/development, 3D, copywriting and printing.
 - Unused designs do not roll over. Auto-renews until cancelled from the portal. 3-day grace on a failed charge.
 - Add-ons: extra revision ₦2,000 · 12h rush ₦5,000 · source file ₦5,000 · resize ₦2,000 · extra concept ₦3,500.
 
-**Plan slugs matter.** Card CTAs deep-link `?plan=starter`, `?plan=growth-monthly`, `?plan=business-monthly`. Those only resolve if the plans are named exactly **Starter**, **Growth Monthly**, **Business Monthly** in admin. A mismatch fails to preselect rather than breaking.
+**Plan slugs matter.** The CTAs deep-link to `?plan=growth` and `?plan=business-monthly`. Confirm the active public packages use those slugs before deployment; a mismatch fails to preselect rather than breaking.
 
 ---
 
@@ -57,7 +56,7 @@ This is the single most important thing to know before touching copy. The design
 | Pro: Webflow, video editing, product design, UI/UX | All excluded |
 | "Unlimited requests" · "Unlimited revisions" | Counted designs, 2 or 3 revisions |
 | "Native source files" included | ₦5,000 add-on |
-| "1 Dedicated Project manager" on all plans | Business Monthly only |
+| "1 Dedicated Project manager" on all plans | Managed support is included; do not promise a dedicated PM publicly |
 | "UI/UX, web, brand, and motion all in one place" | Three of four excluded |
 
 **Two further claims were caught by checking the app rather than the docs**, and would have shipped as lies:
@@ -87,13 +86,12 @@ This is the single most important thing to know before touching copy. The design
 
 ## Blocked on the owner
 
-1. **How motion counts against a monthly quota** — the plans say "graphics, social and motion" but cannot say what a motion piece costs. At ₦85,000 ÷ 15 = **₦5,667 a slot**, a client could spend all 15 on animated video, the same price as a source-file add-on. The FAQ deliberately does not answer this, and now nor do the Terms. *(Open in the campaign plan as `[[MOTION_COUNTS]]` since 10 July.)* **Note the contradiction:** the owner's own pricing doc lists motion graphics and video editing under "What's Not Included", while the plans we sell include motion. One of the two is wrong.
-2. **`[[MOTION_TURNAROUND]]`** — motion is not 24 to 48 hours.
+1. **Motion is excluded from the public graphics plans.** Any motion graphics or animation requires a separate scope and quote; it does not consume a Growth or Business design slot.
 3. **`[[IP_TERMS]]`** — the doc grants *commercial use*, which is not ownership transfer. A business buyer will ask.
 4. **Cal.com link** for "Book a call". Decided (Cal.com, never WhatsApp), URL not supplied, so the button is not on the page rather than pointing nowhere.
 5. **Terms + Privacy + Cookies** — **drafted, see `docs/legal/`.** Review copy: <https://claude.ai/code/artifact/137106a4-fe51-4cca-bd4d-d9bc7d43c094>. The Cookie Policy **has no home in the app** (`LegalDocument::TYPES` knows only `terms` and `privacy`); fold it into Privacy §4, put it on the marketing site, or add a third type. Not published: 16 placeholders to fill, starting with legal entity name + RC, registered address, support email, phone. Three real decisions in `docs/legal/README.md`: the IP terms, how motion counts, and the visit-retention period. The app already has the machinery (`/admin/legal` publishes, `/terms` + `/privacy` render, checkout blocks payment without a tick), and both pages currently say "being finalised". **Plain text, not markdown**: the editor is a textarea and the page renders escaped `whitespace-pre-wrap`.
-6. **Testimonials** — owner is designing a hover-to-reveal video treatment (2-3 client videos, highlighted quote, hover plays). Section untouched until that lands.
-7. **Host + git remote.** Local-only. It cannot go live. Subdomain recommended (`graphics.`, see top); the **host is still unchosen**, and it is a static folder so anything serving files will do.
+6. **Testimonials** — the template's unsupported quotes and “20+” claim were removed. The section now uses clearly labelled placeholders and sends existing clients to the authenticated feedback form at `app.trydesignsync.com/portal/testimonials`. Replace placeholders only with submissions approved in the app. The planned hover-to-reveal video treatment remains a future enhancement.
+7. **VPS access + DNS.** The selected host is the existing VPS and the approved domain is `designs.trydesignsync.com`. DNS is not configured, this workstation's root SSH key is rejected, and the site still has no git remote. See `DEPLOYMENT.md` for the exact setup/deploy commands once access is restored.
 8. **Meta Pixel, raised 2026-07-16.** Owner is considering it for ads. **It is not a small addition.** It makes four Privacy statements and all of Cookies §4 false, and it **reverses the no-banner decision** below: a pixel is not necessary for the site to work, so legitimate interest cannot carry it and consent is the only basis that fits, meaning a real banner where refusing is as easy as accepting and actually stops the pixel loading. Expansion to other regions makes this worse, not better (ePrivacy + GDPR are stricter than NDPA on precisely this). **Recommendation:** pixel on the marketing site behind a genuine banner, **Conversions API server-side from the Paystack webhook** for the numbers worth deciding on (the pixel cannot see the payment anyway, it happens on Paystack), nothing on the portal. Reasoning in `docs/legal/cookie-policy.txt` §5.
 
 ## Decided, for the record
