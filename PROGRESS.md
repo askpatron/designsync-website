@@ -8,7 +8,7 @@ The public marketing site for the **Graphics on Demand** service. Separate from 
 
 **Stack:** static HTML + CSS + vanilla JS, no build step. Deploy = upload the folder.
 **Local:** `preview_start designsync-website` → http://localhost:8110 (port is in the workspace `.claude/launch.json`).
-**Status:** built, not launched. Existing VPS selected; DNS, nginx, SSH access, and a git remote are not configured yet.
+**Status:** live at **https://designs.trydesignsync.com** on the existing VPS behind Cloudflare. Deployments use the `rsync` runbook in `DEPLOYMENT.md`; no git remote is configured.
 
 > The preview pane caches `style.css` and `main.js` aggressively and has served stale copies repeatedly. Hard-reload, or verify with headless Chrome (a fresh profile), before believing something is broken.
 
@@ -41,7 +41,7 @@ Teal **`#0D9DA4`** (no yellow) · black `#101010` · **Inter Tight Medium (500)*
 - Unused designs do not roll over. Auto-renews until cancelled from the portal. 3-day grace on a failed charge.
 - Add-ons: extra revision ₦2,000 · 12h rush ₦5,000 · source file ₦5,000 · resize ₦2,000 · extra concept ₦3,500.
 
-**Plan slugs matter.** The CTAs deep-link to `?plan=growth` and `?plan=business-monthly`. Confirm the active public packages use those slugs before deployment; a mismatch fails to preselect rather than breaking.
+**Plan slugs matter.** Production uses `?plan=growth-monthly` and `?plan=business-monthly`. UAT caught the former `?plan=growth` link falling back to Starter because no live package matched that slug.
 
 ---
 
@@ -89,9 +89,9 @@ This is the single most important thing to know before touching copy. The design
 1. **Motion is excluded from the public graphics plans.** Any motion graphics or animation requires a separate scope and quote; it does not consume a Growth or Business design slot.
 3. **`[[IP_TERMS]]`** — the doc grants *commercial use*, which is not ownership transfer. A business buyer will ask.
 4. **Cal.com link** for "Book a call". Decided (Cal.com, never WhatsApp), URL not supplied, so the button is not on the page rather than pointing nowhere.
-5. **Terms + Privacy + Cookies** — **drafted, see `docs/legal/`.** Review copy: <https://claude.ai/code/artifact/137106a4-fe51-4cca-bd4d-d9bc7d43c094>. The Cookie Policy **has no home in the app** (`LegalDocument::TYPES` knows only `terms` and `privacy`); fold it into Privacy §4, put it on the marketing site, or add a third type. Not published: 16 placeholders to fill, starting with legal entity name + RC, registered address, support email, phone. Three real decisions in `docs/legal/README.md`: the IP terms, how motion counts, and the visit-retention period. The app already has the machinery (`/admin/legal` publishes, `/terms` + `/privacy` render, checkout blocks payment without a tick), and both pages currently say "being finalised". **Plain text, not markdown**: the editor is a textarea and the page renders escaped `whitespace-pre-wrap`.
+5. **Terms + Privacy + Cookies** — **drafted for owner review.** The app now has a private draft → explicit publish workflow and an idempotent draft seeder awaiting deployment. Unknown legal/business facts remain visible placeholders and block publication until resolved. Cookie policy placement remains undecided.
 6. **Testimonials** — the template's unsupported quotes and “20+” claim were removed. The section now uses clearly labelled placeholders and sends existing clients to the authenticated feedback form at `app.trydesignsync.com/portal/testimonials`. Replace placeholders only with submissions approved in the app. The planned hover-to-reveal video treatment remains a future enhancement.
-7. **VPS access + DNS.** The selected host is the existing VPS and the approved domain is `designs.trydesignsync.com`. DNS is not configured, this workstation's root SSH key is rejected, and the site still has no git remote. See `DEPLOYMENT.md` for the exact setup/deploy commands once access is restored.
+7. **Hosting is live.** `designs.trydesignsync.com` resolves through Cloudflare to the existing VPS; nginx serves the static site from `/var/www/designs.trydesignsync.com`. This workstation still has no accepted SSH key, so the owner runs VPS commands and password-authenticated `rsync` deployments.
 8. **Meta Pixel, raised 2026-07-16.** Owner is considering it for ads. **It is not a small addition.** It makes four Privacy statements and all of Cookies §4 false, and it **reverses the no-banner decision** below: a pixel is not necessary for the site to work, so legitimate interest cannot carry it and consent is the only basis that fits, meaning a real banner where refusing is as easy as accepting and actually stops the pixel loading. Expansion to other regions makes this worse, not better (ePrivacy + GDPR are stricter than NDPA on precisely this). **Recommendation:** pixel on the marketing site behind a genuine banner, **Conversions API server-side from the Paystack webhook** for the numbers worth deciding on (the pixel cannot see the payment anyway, it happens on Paystack), nothing on the portal. Reasoning in `docs/legal/cookie-policy.txt` §5.
 
 ## Decided, for the record
