@@ -213,18 +213,18 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 
 /* Six slots of turn. Because the deck is laid out twice, that lands every
    artwork exactly where its twin began, so the reset is invisible and the wheel
-   reads as one endless arc. --wheel-scale lets mobile zoom the composition so
-   the cards stay the hero focus without rewriting slot geometry. */
+   reads as one endless arc. Rotation only: the wheel's origin is the arc centre
+   far below the stage, so scaling here would fling every card off position. To
+   enlarge the composition, widen .collage-stage instead (see Responsive). */
 @keyframes wheel-turn {
-    from { transform: rotate(0deg) scale(var(--wheel-scale, 1)); }
-    to   { transform: rotate(-130.2deg) scale(var(--wheel-scale, 1)); }
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-130.2deg); }
 }
 
 /* Turns on its own from page load, no scrolling required and nothing pinned, so
    the page below is never held back. One transform on one element, so it runs on
    the compositor. */
 .collage-wheel {
-    --wheel-scale: 1;
     animation: wheel-turn 96s linear infinite;
 }
 
@@ -895,18 +895,19 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .included-list { grid-template-columns: 1fr 1fr; }
     .faq-layout { grid-template-columns: 1fr; gap: 40px; }
 
-    /* Phone/tablet: taller stage + zoomed wheel so the design cards are the
-       visual focus, not a thin strip under the copy. */
+    /* Phone/tablet: the cards are the hero, so the stage is widened past the
+       screen and re-centred. Every slot position and the card width are
+       percentages of the stage, so a wider stage enlarges the whole arc with its
+       geometry intact — and the stage's own aspect-ratio makes it taller to
+       match. The bleed is clipped by .hero-collage, so no sideways page scroll. */
     .hero { padding-top: 40px; }
-    .hero-collage { margin-top: 28px; }
+    .hero-collage { margin-top: 28px; overflow: hidden; }
     .collage-stage {
-        aspect-ratio: unset;
-        height: clamp(360px, 54vh, 520px);
+        width: 160%;
+        left: 50%;
+        transform: translateX(-50%);
     }
-    .collage-wheel {
-        --wheel-scale: 1.85;
-        animation-duration: 120s;
-    }
+    .collage-wheel { animation-duration: 120s; }
     .trusted { position: static; margin-top: 20px; }
     .trusted img { width: 58%; margin-top: 12px; }
 
@@ -932,8 +933,11 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .hero-title br { display: none; }
     .hero-sub { font-size: 16px; margin-top: 16px; }
     .band-title { font-size: clamp(22px, 6.4vw, 30px); margin-bottom: 22px; }
-    .collage-stage { height: clamp(380px, 58vh, 500px); }
-    .collage-wheel { --wheel-scale: 2.25; animation-duration: 140s; }
+    /* Narrower screen, more zoom: 190% of a 390px screen is a ~740px stage, so a
+       card reads at ~140px wide instead of 73px. Past ~200% the arc's visible
+       chord flattens out near the top and leaves a void under the cards. */
+    .collage-stage { width: 190%; }
+    .collage-wheel { animation-duration: 140s; }
     .trusted img { width: 78%; }
     .cat-track { --card-w: min(272px, 82vw); }
     .categories::after { height: 200vh; }

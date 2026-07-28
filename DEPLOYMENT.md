@@ -82,26 +82,32 @@ systemctl reload nginx
 
 ## Deploy an update (VPS only)
 
-Source of truth: **https://github.com/askpatron/designsync-website** (private).
-Agent pushes to `main`; owner deploys from the VPS. No Mac `rsync` required.
+Source of truth: **https://github.com/askpatron/designsync-website** (public, so
+the VPS clones it without a token). Agent pushes to `main`; owner deploys from
+the VPS. No Mac `rsync` required.
+
+This site is not alone on the box: `app.trydesignsync.com` (Laravel) and
+`houseofnkineya.ng` also live here. Every path below is scoped to
+`/var/www/designs.trydesignsync.com`, so nothing here touches them.
 
 ### One-time setup on the VPS
 
-Create a GitHub classic PAT with `repo` read (or a fine-grained token with
-Contents: Read on `askpatron/designsync-website`), then:
-
 ```bash
-mkdir -p /opt/designsync-website /var/backups/designs.trydesignsync.com
-cd /opt/designsync-website
-git clone https://github.com/askpatron/designsync-website.git .
-# Username: your GitHub username
-# Password: the PAT (not your GitHub password)
+mkdir -p /opt /var/backups/designs.trydesignsync.com
+rm -rf /opt/designsync-website
+git clone https://github.com/askpatron/designsync-website.git /opt/designsync-website
 ```
 
 ### Every deploy (paste on the VPS as root)
 
+The `index.html` check is not decoration. A failed clone once left
+`/opt/designsync-website` empty, and `rsync --delete` faithfully copied that
+emptiness over the live site. The guard makes that impossible.
+
 ```bash
 cd /opt/designsync-website && git fetch origin && git reset --hard origin/main
+
+test -f /opt/designsync-website/index.html || { echo "ABORT: checkout is empty, not syncing"; exit 1; }
 
 tar -C /var/www/designs.trydesignsync.com -czf \
   "/var/backups/designs.trydesignsync.com/site-$(date +%Y%m%d-%H%M%S).tar.gz" . 2>/dev/null || true
@@ -123,11 +129,12 @@ restorecon -R /var/www/designs.trydesignsync.com 2>/dev/null || true
 nginx -t && systemctl reload nginx
 
 # Confirm the mobile/cache-bust release is live:
-grep -F 'v=20260728c' /var/www/designs.trydesignsync.com/index.html
+grep -F 'v=20260728d' /var/www/designs.trydesignsync.com/index.html
+grep -F 'width: 190%' /var/www/designs.trydesignsync.com/css/style.css
 ls -la /var/www/designs.trydesignsync.com/css/style.css /var/www/designs.trydesignsync.com/js/main.js
 ```
 
-Then hard-reload https://designs.trydesignsync.com on your phone (CSS URL should show `?v=20260728c`).
+Then hard-reload https://designs.trydesignsync.com on your phone (CSS URL should show `?v=20260728d`). If Cloudflare still serves the old CSS, purge `/css/*` and `/js/*`.
 
 ## Verify
 

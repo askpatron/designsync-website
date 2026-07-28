@@ -13,8 +13,10 @@ The public marketing site for the **Graphics on Demand** service. Separate from 
 ### 2026-07-28 — scroll effects restored
 - Skills teal band is back on the **scroll-lock** (sticky pin + `view-timeline` sideways scrub). The endless marquee no longer responded to scroll, which read as “broken”.
 - Section `data-reveal` now has a scroll/resize fallback so content cannot stay at `opacity: 0` if IntersectionObserver is quiet.
-- Cache-bust query on `css/style.css` and `js/main.js` (`?v=20260728c`) because nginx/Cloudflare cache CSS/JS for 7 days.
-- **Mobile:** hero collage zooms (`--wheel-scale`) into a taller stage so the cards are the focus; Skills scroll-lock stays on for phones (only reduced-motion / no-view-timeline browsers fall back to swipe).
+- Cache-bust query on `css/style.css` and `js/main.js` (`?v=20260728d`) because nginx/Cloudflare cache CSS/JS for 7 days.
+- **Mobile:** Skills scroll-lock stays on for phones (only reduced-motion / no-view-timeline browsers fall back to swipe).
+- **Mobile hero, second attempt.** The first attempt scaled `.collage-wheel`, which broke the composition: the wheel's `transform-origin` is the arc's centre, ~188% below the stage, so any `scale()` there throws every card far off its slot. **Zoom the stage, never the wheel** — `.collage-stage` goes to `width: 190%` (160% on tablet) with `left: 50%; transform: translateX(-50%)`, and `.hero-collage` clips the bleed. Slot positions and card width are percentages of the stage, and the stage's own `aspect-ratio` makes it taller to match, so the arc enlarges with its geometry exactly intact. Measured at 390px: cards ~140px wide (was 73px), no horizontal page scroll.
+- **Do not push the zoom past ~200%.** Measured across the full 130.2° turn: at 270% the visible chord of the arc flattens near the top and leaves a ~135px void under the cards; at 190% that void is near zero.
 - After `rsync`, hard-reload the site (or purge Cloudflare cache for `/css/*` and `/js/*`).
 
 > The preview pane caches `style.css` and `main.js` aggressively and has served stale copies repeatedly. Hard-reload, or verify with headless Chrome (a fresh profile), before believing something is broken.
@@ -77,7 +79,7 @@ This is the single most important thing to know before touching copy. The design
 ## What is built
 
 - **Hero** — five real card artworks on a wheel that turns endlessly (96s). They sit on a measured circle: centre (720, 1036.6), radius 875, each tangent, 21.7° apart. The deck is laid out twice so the reset is invisible. Secondary CTA is **"Try 2 designs for ₦15,000"**, price on the button.
-- **Skills** — six cards, **all six video** (motion, presentations, social, brochure, business card, packaging). Endless marquee, deck laid out **three times** so it still tiles at 4K (needs trackW ≥ viewport + one set). 24MB of masters compressed to 772KB. Masters archived in `~/Documents/Personal/Design Sync/Subscription Package/`.
+- **Skills** — six cards, **all six video** (motion, presentations, social, brochure, business card, packaging). Scroll-locked: the band pins and the track scrubs sideways with a `view-timeline`. Deck laid out **three times** so it still tiles at 4K (needs trackW ≥ viewport + one set). 24MB of masters compressed to 772KB. Masters archived in `~/Documents/Personal/Design Sync/Subscription Package/`.
 - **Process** — three steps, images re-cropped to the card's inner rect.
 - **Why choose us** — the campaign plan's six, minus the claims we cannot back.
 - **Pricing** — the two monthlies, the Starter line, inclusions, and an explicit "quoted separately" line.
