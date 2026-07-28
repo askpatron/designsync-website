@@ -213,16 +213,18 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 
 /* Six slots of turn. Because the deck is laid out twice, that lands every
    artwork exactly where its twin began, so the reset is invisible and the wheel
-   reads as one endless arc. */
+   reads as one endless arc. --wheel-scale lets mobile zoom the composition so
+   the cards stay the hero focus without rewriting slot geometry. */
 @keyframes wheel-turn {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(-130.2deg); }
+    from { transform: rotate(0deg) scale(var(--wheel-scale, 1)); }
+    to   { transform: rotate(-130.2deg) scale(var(--wheel-scale, 1)); }
 }
 
 /* Turns on its own from page load, no scrolling required and nothing pinned, so
    the page below is never held back. One transform on one element, so it runs on
    the compositor. */
 .collage-wheel {
+    --wheel-scale: 1;
     animation: wheel-turn 96s linear infinite;
 }
 
@@ -856,9 +858,9 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
 
 /* ---------- Responsive ---------- */
 
-/* Anywhere the lock does not run, the row must still be reachable, so it falls
-   back to a plain swipeable strip rather than a row you cannot get to the end of. */
-@media (max-width: 1024px), (prefers-reduced-motion: reduce) {
+/* Scroll-lock stays on for phones/tablets. Only reduced-motion (and browsers
+   without view timelines, below) fall back to a swipeable strip. */
+@media (prefers-reduced-motion: reduce) {
     .categories { padding: 96px 0 110px; }
     .categories::after { display: none; }
     .cat-pin { position: static; height: auto; overflow: visible; }
@@ -866,9 +868,6 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .cat-viewport::-webkit-scrollbar { display: none; }
     .cat-track { animation: none; }
     .cat-card { scroll-snap-align: center; }
-    /* The second pass of the deck only exists to make the lock's loop seamless.
-       With no lock there is nothing to loop, and swiping past the same six a
-       second time would just look like a mistake. */
     .cat-card[data-dup] { display: none; }
 }
 
@@ -876,7 +875,11 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .categories { padding: 96px 0 110px; }
     .categories::after { display: none; }
     .cat-pin { position: static; height: auto; overflow: visible; }
-    .cat-viewport { overflow-x: auto; }
+    .cat-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .cat-viewport::-webkit-scrollbar { display: none; }
+    .cat-track { animation: none; }
+    .cat-card { scroll-snap-align: center; }
+    .cat-card[data-dup] { display: none; }
 }
 
 @media (max-width: 1024px) {
@@ -891,6 +894,34 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .included-card { grid-template-columns: 1fr; }
     .included-list { grid-template-columns: 1fr 1fr; }
     .faq-layout { grid-template-columns: 1fr; gap: 40px; }
+
+    /* Phone/tablet: taller stage + zoomed wheel so the design cards are the
+       visual focus, not a thin strip under the copy. */
+    .hero { padding-top: 40px; }
+    .hero-collage { margin-top: 28px; }
+    .collage-stage {
+        aspect-ratio: unset;
+        height: clamp(360px, 54vh, 520px);
+    }
+    .collage-wheel {
+        --wheel-scale: 1.85;
+        animation-duration: 120s;
+    }
+    .trusted { position: static; margin-top: 20px; }
+    .trusted img { width: 58%; margin-top: 12px; }
+
+    /* Keep the Skills pin usable on short screens: dynamic viewport height,
+       slightly smaller cards, longer runway so the scrub still feels earned. */
+    .cat-pin {
+        height: 100vh;
+        height: 100dvh;
+    }
+    .band-title { margin-bottom: 28px; padding-inline: 8px; }
+    .cat-track {
+        --card-w: min(300px, 78vw);
+        --card-gap: 14px;
+    }
+    .categories::after { height: 170vh; }
 }
 
 @media (max-width: 640px) {
@@ -899,14 +930,13 @@ h1, h2, h3 { color: var(--ink); font-weight: 500; letter-spacing: -0.03em; }
     .display { font-size: clamp(30px, 8.6vw, 40px); }
     .hero-title { font-size: clamp(28px, 8vw, 36px); }
     .hero-title br { display: none; }
-    .band-title { font-size: clamp(24px, 6.8vw, 30px); }
-    /* The collage band is only ~150px tall at this width, far too short to hold
-       the logos in the gap between the cards, so they drop below instead. */
-    .trusted { position: static; margin-top: 16px; }
-    .trusted img { width: 66%; margin-top: 10px; }
-    /* Slower on a phone: the arc is small at this width, and a gentler turn
-       avoids drawing the eye away from the buttons above it. */
-    .collage-wheel { animation-duration: 150s; }
+    .hero-sub { font-size: 16px; margin-top: 16px; }
+    .band-title { font-size: clamp(22px, 6.4vw, 30px); margin-bottom: 22px; }
+    .collage-stage { height: clamp(380px, 58vh, 500px); }
+    .collage-wheel { --wheel-scale: 2.25; animation-duration: 140s; }
+    .trusted img { width: 78%; }
+    .cat-track { --card-w: min(272px, 82vw); }
+    .categories::after { height: 200vh; }
     .process-head { flex-direction: column; align-items: flex-start; }
     .price-card { grid-template-columns: 1fr; }
     .price-amount { padding-top: 28px; }

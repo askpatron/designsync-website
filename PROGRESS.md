@@ -13,7 +13,8 @@ The public marketing site for the **Graphics on Demand** service. Separate from 
 ### 2026-07-28 — scroll effects restored
 - Skills teal band is back on the **scroll-lock** (sticky pin + `view-timeline` sideways scrub). The endless marquee no longer responded to scroll, which read as “broken”.
 - Section `data-reveal` now has a scroll/resize fallback so content cannot stay at `opacity: 0` if IntersectionObserver is quiet.
-- Cache-bust query on `css/style.css` and `js/main.js` (`?v=20260728`) because nginx/Cloudflare cache CSS/JS for 7 days.
+- Cache-bust query on `css/style.css` and `js/main.js` (`?v=20260728c`) because nginx/Cloudflare cache CSS/JS for 7 days.
+- **Mobile:** hero collage zooms (`--wheel-scale`) into a taller stage so the cards are the focus; Skills scroll-lock stays on for phones (only reduced-motion / no-view-timeline browsers fall back to swipe).
 - After `rsync`, hard-reload the site (or purge Cloudflare cache for `/css/*` and `/js/*`).
 
 > The preview pane caches `style.css` and `main.js` aggressively and has served stale copies repeatedly. Hard-reload, or verify with headless Chrome (a fresh profile), before believing something is broken.
