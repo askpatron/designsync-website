@@ -80,21 +80,33 @@ nginx -t
 systemctl reload nginx
 ```
 
-## Deploy an update
+## Deploy an update (VPS only)
 
-Run from the local Mac after SSH access is restored:
+Source of truth: **https://github.com/askpatron/designsync-website** (private).
+Agent pushes to `main`; owner deploys from the VPS. No Mac `rsync` required.
+
+### One-time setup on the VPS
+
+Create a GitHub classic PAT with `repo` read (or a fine-grained token with
+Contents: Read on `askpatron/designsync-website`), then:
 
 ```bash
-cd "/Users/mac/Claude Code/designsync-website"
+mkdir -p /opt/designsync-website /var/backups/designs.trydesignsync.com
+cd /opt/designsync-website
+git clone https://github.com/askpatron/designsync-website.git .
+# Username: your GitHub username
+# Password: the PAT (not your GitHub password)
+```
 
-ssh root@159.198.47.197 \
-  'mkdir -p /var/backups/designs.trydesignsync.com /var/www/designs.trydesignsync.com &&
-   if [ -n "$(ls -A /var/www/designs.trydesignsync.com 2>/dev/null)" ]; then
-     tar -C /var/www/designs.trydesignsync.com -czf \
-       "/var/backups/designs.trydesignsync.com/site-$(date +%Y%m%d-%H%M%S).tar.gz" .
-   fi'
+### Every deploy (paste on the VPS as root)
 
-rsync -az --delete \
+```bash
+cd /opt/designsync-website && git fetch origin && git reset --hard origin/main
+
+tar -C /var/www/designs.trydesignsync.com -czf \
+  "/var/backups/designs.trydesignsync.com/site-$(date +%Y%m%d-%H%M%S).tar.gz" . 2>/dev/null || true
+
+rsync -a --delete \
   --exclude ".git/" \
   --exclude ".DS_Store" \
   --exclude "DEPLOYMENT.md" \
@@ -102,15 +114,20 @@ rsync -az --delete \
   --exclude "docs/" \
   --exclude "*.docx" \
   --exclude "~$*" \
-  ./ root@159.198.47.197:/var/www/designs.trydesignsync.com/
+  /opt/designsync-website/ /var/www/designs.trydesignsync.com/
 
-ssh root@159.198.47.197 \
-  'chown -R root:nginx /var/www/designs.trydesignsync.com &&
-   find /var/www/designs.trydesignsync.com -type d -exec chmod 755 {} \; &&
-   find /var/www/designs.trydesignsync.com -type f -exec chmod 644 {} \; &&
-   nginx -t &&
-   systemctl reload nginx'
+chown -R root:nginx /var/www/designs.trydesignsync.com
+find /var/www/designs.trydesignsync.com -type d -exec chmod 755 {} \;
+find /var/www/designs.trydesignsync.com -type f -exec chmod 644 {} \;
+restorecon -R /var/www/designs.trydesignsync.com 2>/dev/null || true
+nginx -t && systemctl reload nginx
+
+# Confirm the mobile/cache-bust release is live:
+grep -F 'v=20260728c' /var/www/designs.trydesignsync.com/index.html
+ls -la /var/www/designs.trydesignsync.com/css/style.css /var/www/designs.trydesignsync.com/js/main.js
 ```
+
+Then hard-reload https://designs.trydesignsync.com on your phone (CSS URL should show `?v=20260728c`).
 
 ## Verify
 

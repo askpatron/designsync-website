@@ -8,7 +8,7 @@ The public marketing site for the **Graphics on Demand** service. Separate from 
 
 **Stack:** static HTML + CSS + vanilla JS, no build step. Deploy = upload the folder.
 **Local:** `preview_start designsync-website` → http://localhost:8110 (port is in the workspace `.claude/launch.json`).
-**Status:** live at **https://designs.trydesignsync.com** on the existing VPS behind Cloudflare. Deployments use the `rsync` runbook in `DEPLOYMENT.md`; no git remote is configured. App companion handoff: `../designsync/PROGRESS.md` (Handoff snapshot, 2026-07-27).
+**Status:** live at **https://designs.trydesignsync.com** on the existing VPS behind Cloudflare. Repo: **https://github.com/askpatron/designsync-website**. Owner deploys from the VPS only (`DEPLOYMENT.md`); agent pushes to `main`. App companion handoff: `../designsync/PROGRESS.md`.
 
 ### 2026-07-28 — scroll effects restored
 - Skills teal band is back on the **scroll-lock** (sticky pin + `view-timeline` sideways scrub). The endless marquee no longer responded to scroll, which read as “broken”.
