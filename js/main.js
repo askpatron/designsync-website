@@ -110,26 +110,42 @@
         });
     });
 
+    const reveal = (el) => el.classList.add('is-in');
+
+    // Absolute inset from the viewport bottom — same idea as the old IO margin.
+    const nearViewport = (el) => {
+        const rect = el.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < vh - 80 && rect.bottom > 0;
+    };
+
+    // Sync pass: cover restored scroll positions and cases where IO is late or
+    // quiet (some embedded / reduced-motion environments never deliver entries).
+    const revealVisible = () => {
+        items.forEach((el) => {
+            if (el.classList.contains('is-in')) return;
+            if (nearViewport(el)) reveal(el);
+        });
+    };
+
     if (! ('IntersectionObserver' in window)) {
-        items.forEach((el) => el.classList.add('is-in'));
+        items.forEach(reveal);
         return;
     }
 
-    // Trigger 80px above the viewport bottom. Deliberately an absolute value, not
-    // a percentage: a percentage scales with viewport height, so a tall window
-    // creates a dead zone at the foot of the page that never reveals.
     const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            // Also reveal anything the page has already scrolled past (restored
-            // scroll position, or an anchor jump), which never "enters" the view.
             const scrolledPast = entry.boundingClientRect.bottom < 0;
             if (! entry.isIntersecting && ! scrolledPast) return;
-            entry.target.classList.add('is-in');
+            reveal(entry.target);
             io.unobserve(entry.target);
         });
     }, { rootMargin: '0px 0px -80px 0px', threshold: 0 });
 
     items.forEach((el) => io.observe(el));
+    revealVisible();
+    window.addEventListener('scroll', revealVisible, { passive: true });
+    window.addEventListener('resize', revealVisible);
 })();
 
 // Testimonial carousel: arrows scroll the track one card at a time.

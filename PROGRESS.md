@@ -10,6 +10,12 @@ The public marketing site for the **Graphics on Demand** service. Separate from 
 **Local:** `preview_start designsync-website` → http://localhost:8110 (port is in the workspace `.claude/launch.json`).
 **Status:** live at **https://designs.trydesignsync.com** on the existing VPS behind Cloudflare. Deployments use the `rsync` runbook in `DEPLOYMENT.md`; no git remote is configured. App companion handoff: `../designsync/PROGRESS.md` (Handoff snapshot, 2026-07-27).
 
+### 2026-07-28 — scroll effects restored
+- Skills teal band is back on the **scroll-lock** (sticky pin + `view-timeline` sideways scrub). The endless marquee no longer responded to scroll, which read as “broken”.
+- Section `data-reveal` now has a scroll/resize fallback so content cannot stay at `opacity: 0` if IntersectionObserver is quiet.
+- Cache-bust query on `css/style.css` and `js/main.js` (`?v=20260728`) because nginx/Cloudflare cache CSS/JS for 7 days.
+- After `rsync`, hard-reload the site (or purge Cloudflare cache for `/css/*` and `/js/*`).
+
 > The preview pane caches `style.css` and `main.js` aggressively and has served stale copies repeatedly. Hard-reload, or verify with headless Chrome (a fresh profile), before believing something is broken.
 
 ---

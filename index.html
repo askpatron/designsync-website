@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=20260728">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -46,8 +46,9 @@
             <a href="https://app.trydesignsync.com/start?plan=starter" class="btn btn-ghost"><span>Try 2 designs for <span class="cur">&#8358;</span>15,000</span></a>
         </div>
     </div>
-    <!-- Five separately positioned cards rather than one flat image, so each can
-         drift on scroll. Their geometry lives in the stylesheet. -->
+    <!-- Five cards on a wheel that turns from page load (not scroll-locked), so
+         the teal section is never held back by a pin runway. Geometry is in the
+         stylesheet. -->
     <div class="hero-collage">
         <div class="collage-stage">
             <!-- The cards are mounted on a wheel that turns for ever, so one
@@ -78,18 +79,18 @@
 </section>
 
 <!-- ============ CATEGORIES / SKILLS (teal band) ============
-     Six skills, wider than any viewport, so the row marquees sideways for ever
-     rather than pinning the page. The deck is laid out three times: travelling
-     exactly one set lands each pass on the one before it, so the reset is
-     invisible, and three sets keep the track wider than the screen plus one set
-     all the way up to 4260px, which covers ultrawide and 4K. Geometry is in the
-     stylesheet. -->
+     Six cards, wider than the viewport. The band pins and the row travels
+     sideways as you scroll: that horizontal travel IS the runway, so unlike a
+     pinned hero it does not leave a white void under the collage. The deck is
+     laid out twice so one full set of travel lands on a frame identical to the
+     start, and the lock can release cleanly. Geometry is in the stylesheet. -->
 <section class="band-teal categories">
-    <div class="container">
-        <h2 class="band-title">One team, one plan, covering the design your business actually needs day to day.</h2>
-    </div>
-    <div class="cat-viewport">
-        <div class="cat-track">
+    <div class="cat-pin">
+        <div class="container">
+            <h2 class="band-title">One team, one plan, covering the design your business actually needs day to day.</h2>
+        </div>
+        <div class="cat-viewport">
+            <div class="cat-track">
                 <div class="cat-card">
                     <div class="cat-media">
                         <video src="assets/skills/motion.mp4" poster="assets/skills/motion-poster.webp"
@@ -180,48 +181,7 @@
                     </div>
                     <p class="cat-label">Packaging</p>
                 </div>
-                <div class="cat-card" data-dup aria-hidden="true">
-                    <div class="cat-media">
-                        <video src="assets/skills/motion.mp4" poster="assets/skills/motion-poster.webp"
-                               autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <p class="cat-label">Motion Graphics <span>(quoted separately)</span></p>
-                </div>
-                <div class="cat-card" data-dup aria-hidden="true">
-                    <div class="cat-media">
-                        <video src="assets/skills/presentations.mp4" poster="assets/skills/presentations-poster.webp"
-                               autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <p class="cat-label">Presentations</p>
-                </div>
-                <div class="cat-card" data-dup aria-hidden="true">
-                    <div class="cat-media">
-                        <video src="assets/skills/social.mp4" poster="assets/skills/social-poster.webp"
-                               autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <p class="cat-label">Social Media</p>
-                </div>
-                <div class="cat-card" data-dup aria-hidden="true">
-                    <div class="cat-media">
-                        <video src="assets/skills/brochure.mp4" poster="assets/skills/brochure-poster.webp"
-                               autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <p class="cat-label">Brochure Designs</p>
-                </div>
-                <div class="cat-card" data-dup aria-hidden="true">
-                    <div class="cat-media">
-                        <video src="assets/skills/businesscard.mp4" poster="assets/skills/businesscard-poster.webp"
-                               autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <p class="cat-label">Business card</p>
-                </div>
-                <div class="cat-card" data-dup aria-hidden="true">
-                    <div class="cat-media">
-                        <video src="assets/skills/packaging.mp4" poster="assets/skills/packaging-poster.webp"
-                               autoplay muted loop playsinline preload="metadata"></video>
-                    </div>
-                    <p class="cat-label">Packaging</p>
-                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -523,6 +483,6 @@
     Chat with us
 </button>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=20260728"></script>
 </body>
 </html>
