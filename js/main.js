@@ -152,6 +152,46 @@
 (function () {
     const track = document.getElementById('testiTrack');
     if (! track) return;
+
+    // Approved reviews are the publication switch: pending/rejected submissions
+    // never enter this feed. Keep the honest placeholders if the API is empty or
+    // unavailable, so the page never invents social proof.
+    fetch('https://app.trydesignsync.com/feedback/published', {
+        headers: { Accept: 'application/json' },
+    })
+        .then((response) => response.ok ? response.json() : Promise.reject())
+        .then(({ data }) => {
+            if (! Array.isArray(data) || data.length === 0) return;
+
+            const fragment = document.createDocumentFragment();
+            data.forEach((review) => {
+                const card = document.createElement('div');
+                card.className = 'testi-card';
+
+                const stars = document.createElement('div');
+                stars.className = 'stars';
+                stars.setAttribute('aria-label', `${review.rating} out of 5 stars`);
+                stars.textContent = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+
+                const quote = document.createElement('p');
+                quote.textContent = review.body;
+
+                const source = document.createElement('div');
+                source.className = 'testi-source';
+                source.textContent = [
+                    review.author_name,
+                    review.author_title,
+                    review.company_name,
+                ].filter(Boolean).join(' · ');
+
+                card.append(stars, quote, source);
+                fragment.append(card);
+            });
+
+            track.replaceChildren(fragment);
+        })
+        .catch(() => {});
+
     const step = () => {
         const card = track.querySelector('.testi-card');
         return card ? card.offsetWidth + 20 : 360;
