@@ -1,0 +1,33 @@
+name: Deploy
+
+# This repo doesn't own docker-compose.prod.yml or deploy-container.sh —
+# those live in askpatron/designsync, which builds this repo as a sibling
+# checkout (../designsync-website) for the 'website' service. So instead of
+# duplicating deploy-container.sh here, this checks out just this repo and
+# pipes .github/scripts/remote-deploy.sh over SSH to run the same
+# pull-and-rebuild sequence directly on the VPS.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: designsync-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Pull + rebuild the shared DesignSync stack
+        run: ssh -i ~/.ssh/deploy_key "root@${{ secrets.VPS_HOST }}" bash -s < .github/scripts/remote-deploy.sh
