@@ -1,48 +1,117 @@
-// Live chat, loaded on click rather than on page load.
-//
-// Tawk's own snippet fetches on page load and starts monitoring immediately.
-// That puts a third-party script and a websocket on the critical path of the
-// page we buy ad traffic for, for the small share who ever open chat, and it
-// tracks people before they have asked for anything. Deferring to the click
-// keeps the page fast and means there is nothing to consent to: the click IS the
-// request for the service.
+// Native DesignSync chat, opened only when requested. On local marketing
+// previews it targets the local Laravel app; production targets the portal.
 (function () {
     const btn = document.querySelector('[data-chat]');
     if (! btn) return;
-
-    const PROPERTY = '6a591c54940f101d53239d3b';
-    const WIDGET = '1jtm1db40';
-    let loading = false;
-
-    btn.addEventListener('click', () => {
-        if (loading) return;
-        loading = true;
-        btn.setAttribute('aria-busy', 'true');
-
-        window.Tawk_API = window.Tawk_API || {};
-        window.Tawk_LoadStart = new Date();
-
-        // Set before the script loads, or we miss the hook. The click already
-        // said "I want to chat", so open it rather than leave them a bubble to
-        // click a second time; Tawk's own launcher then replaces ours.
-        window.Tawk_API.onLoad = function () {
-            if (typeof window.Tawk_API.maximize === 'function') window.Tawk_API.maximize();
-            btn.remove();
-        };
-
-        const s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://embed.tawk.to/' + PROPERTY + '/' + WIDGET;
-        s.charset = 'UTF-8';
-        s.setAttribute('crossorigin', '*');
-        // Blocked by a shield, or offline: give the button back rather than
-        // leave a dead control.
-        s.onerror = () => {
-            loading = false;
-            btn.removeAttribute('aria-busy');
-        };
-        document.head.appendChild(s);
+    const panel = document.querySelector('[data-chat-panel]');
+    const frame = panel?.querySelector('iframe');
+    const unread = btn.querySelector('[data-chat-unread]');
+    const preview = document.querySelector('[data-chat-preview]');
+    const previewText = preview?.querySelector('[data-chat-preview-text]');
+    const local = ['localhost', '127.0.0.1'].includes(location.hostname);
+    const chatUrl = local ? 'http://127.0.0.1:8100/chat' : 'https://app.trydesignsync.com/chat';
+    const clearUnread = () => { if (unread) unread.hidden = true; if (preview) preview.hidden = true; };
+    const open = () => { if (!panel || !frame) return; if (!frame.src) frame.src = chatUrl + '?embed=1&from=' + encodeURIComponent(location.href); panel.hidden = false; btn.setAttribute('aria-expanded','true'); document.body.classList.add('chat-open'); clearUnread(); };
+    const shut = () => { panel.hidden = true; btn.setAttribute('aria-expanded','false'); document.body.classList.remove('chat-open'); btn.focus(); };
+    const newMessage = (text) => {
+        if (!panel?.hidden) return;
+        if (previewText && text) previewText.textContent = text;
+        if (unread) unread.hidden = false;
+        if (preview) preview.hidden = false;
+    };
+    btn.addEventListener('click', () => panel?.hidden ? open() : shut());
+    preview?.addEventListener('click', open);
+    document.addEventListener('pointerdown', event => {
+        if (!panel?.hidden && !panel.contains(event.target) && !btn.contains(event.target)) shut();
     });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) shut(); });
+    window.addEventListener('message', event => {
+        if (event.origin !== new URL(chatUrl).origin || event.data?.type !== 'designsync:message') return;
+        newMessage(event.data.preview);
+    });
+    window.addEventListener('designsync:demo-message', event => newMessage(event.detail?.preview));
+    if (local && new URLSearchParams(location.search).has('chatDemo')) {
+        setTimeout(() => newMessage('Ada replied: I can help you choose the right plan.'), 500);
+    }
+})();
+
+// Mobile project carousel: advance one card from right to left, while keeping
+// native swipe available. A clone of the first card makes the loop reset
+// invisibly instead of sliding backwards across the whole strip.
+(function () {
+    const track = document.querySelector('.work-grid');
+    const mobile = window.matchMedia('(max-width: 640px)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (! track || ! mobile.matches || reducedMotion.matches) return;
+
+    const cards = Array.from(track.querySelectorAll('img'));
+    if (cards.length < 2) return;
+
+    const loopCard = cards[0].cloneNode(true);
+    loopCard.removeAttribute('data-reveal');
+    loopCard.setAttribute('aria-hidden', 'true');
+    track.appendChild(loopCard);
+
+    let index = 0;
+    let timer;
+    let resumeTimer;
+    const step = () => cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap || 0);
+    const schedule = () => {
+        clearInterval(timer);
+        timer = setInterval(() => {
+            if (document.hidden) return;
+            index += 1;
+            track.scrollTo({ left: step() * index, behavior: 'smooth' });
+
+            if (index === cards.length) {
+                setTimeout(() => {
+                    track.scrollTo({ left: 0, behavior: 'auto' });
+                    index = 0;
+                }, 650);
+            }
+        }, 3200);
+    };
+    const pauseForInteraction = () => {
+        clearInterval(timer);
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(schedule, 6000);
+    };
+
+    track.addEventListener('pointerdown', pauseForInteraction, { passive: true });
+    track.addEventListener('touchstart', pauseForInteraction, { passive: true });
+    document.addEventListener('visibilitychange', () => { if (! document.hidden) schedule(); });
+    schedule();
+})();
+
+// On phones the skills section is not pinned to vertical scrolling. Keep the
+// row moving like a continuous conveyor while preserving native swipe.
+(function () {
+    const viewport = document.querySelector('.cat-viewport');
+    const track = viewport?.querySelector('.cat-track');
+    const mobile = window.matchMedia('(max-width: 640px)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (! viewport || ! track || ! mobile.matches || reducedMotion.matches) return;
+
+    const cards = Array.from(track.querySelectorAll('.cat-card:not([data-dup])'));
+    if (cards.length < 2) return;
+
+    track.classList.add('is-continuous');
+    let resumeTimer;
+    const start = () => {
+        track.style.animationPlayState = 'running';
+    };
+    const pauseForInteraction = () => {
+        track.style.animationPlayState = 'paused';
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(start, 6000);
+    };
+
+    viewport.addEventListener('pointerdown', pauseForInteraction, { passive: true });
+    viewport.addEventListener('touchstart', pauseForInteraction, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+        track.style.animationPlayState = document.hidden ? 'paused' : 'running';
+    });
+    start();
 })();
 
 // Split the grey half of each display heading into letters, so it can fill to

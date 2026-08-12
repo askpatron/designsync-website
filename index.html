@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260728d">
+    <link rel="stylesheet" href="css/style.css?v=20260812d">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -475,14 +475,21 @@
     </div>
 </footer>
 
-<!-- Our own launcher. Tawk's script is NOT embedded here on purpose: it loads on
-     click (see js/main.js), so nothing is fetched or tracked until a visitor
-     actually asks for chat. -->
-<button type="button" class="chat-fab" data-chat>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-    Chat with us
+<section class="chat-panel" data-chat-panel hidden aria-label="Design Sync chat">
+    <div class="chat-panel-head"><strong>Design Sync</strong></div>
+    <iframe title="Chat with Design Sync" loading="lazy"></iframe>
+</section>
+<button type="button" class="chat-preview" data-chat-preview hidden aria-label="Open new chat message">
+    <span class="chat-preview-dot" aria-hidden="true"></span>
+    <span><strong>New message</strong><small data-chat-preview-text>Design Sync replied to your message.</small></span>
+    <span aria-hidden="true">→</span>
+</button>
+<button type="button" class="chat-fab" data-chat aria-expanded="false" aria-label="Chat with Design Sync">
+    <svg class="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    <svg class="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    <span class="chat-unread" data-chat-unread hidden>1</span>
 </button>
 
-<script src="js/main.js?v=20260731a"></script>
+<script src="js/main.js?v=20260812d"></script>
 </body>
 </html>
