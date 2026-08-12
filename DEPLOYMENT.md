@@ -2,8 +2,82 @@
 
 Target: **https://designs.trydesignsync.com**
 
+Staging target: **https://designs-staging.trydesignsync.com**
+
 This is a static HTML/CSS/JavaScript site. It has no build step. The selected
 host is the existing VPS at `159.198.47.197`.
+
+## Marketing staging
+
+The staging website uses the repository's `staging` branch and is isolated at
+`/var/www/designs-staging.trydesignsync.com`. It is protected by HTTP Basic
+Auth and sends `X-Robots-Tag: noindex, nofollow, noarchive`. JavaScript rewrites
+all portal links and API/chat traffic to `https://staging.trydesignsync.com`,
+so staging reviews cannot create production purchases or support records.
+
+Create a proxied Cloudflare DNS record:
+
+- Type: `A`
+- Name: `designs-staging`
+- IPv4 address: `104.207.75.124`
+- Proxy status: Proxied
+- TTL: Auto
+
+On the new VPS, create the checkout and publish directory:
+
+```bash
+sudo install -d -o serveradmin -g nginx -m 2750 /opt/designsync-website-staging
+sudo install -d -o nginx -g nginx -m 0750 /var/www/designs-staging.trydesignsync.com
+git clone --branch staging --single-branch \
+  https://github.com/askpatron/designsync-website.git \
+  /opt/designsync-website-staging
+```
+
+Create a separate Basic Auth password (do not commit or paste it into chat):
+
+```bash
+sudo dnf install -y httpd-tools
+sudo htpasswd -c /etc/nginx/.designsync-marketing-staging designsync-test
+sudo chown root:nginx /etc/nginx/.designsync-marketing-staging
+sudo chmod 0640 /etc/nginx/.designsync-marketing-staging
+```
+
+The nginx vhost must use `server_name designs-staging.trydesignsync.com`, root
+`/var/www/designs-staging.trydesignsync.com`, the existing wildcard Cloudflare
+origin certificate, Basic Auth in `location /`, and these response headers:
+
+```nginx
+add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "no-referrer" always;
+```
+
+Because the marketing staging site embeds the Laravel staging chat, the nginx
+vhost for `staging.trydesignsync.com` must permit that one frame ancestor with
+`Content-Security-Policy: frame-ancestors 'self' https://designs-staging.trydesignsync.com`
+and must not send `X-Frame-Options: SAMEORIGIN` for the public `/chat` routes.
+
+Deploy the current staging branch on the VPS:
+
+```bash
+cd /opt/designsync-website-staging
+sudo git fetch origin staging
+sudo git reset --hard origin/staging
+
+test -f index.html || { echo "ABORT: checkout is empty"; exit 1; }
+
+sudo rsync -a --delete \
+  --exclude ".git/" \
+  --exclude ".DS_Store" \
+  --exclude "DEPLOYMENT.md" \
+  /opt/designsync-website-staging/ \
+  /var/www/designs-staging.trydesignsync.com/
+
+sudo chown -R nginx:nginx /var/www/designs-staging.trydesignsync.com
+sudo restorecon -R /var/www/designs-staging.trydesignsync.com
+sudo nginx -t
+sudo systemctl reload nginx
+```
 
 ## Current blockers
 

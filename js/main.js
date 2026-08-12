@@ -1,5 +1,20 @@
-// Native DesignSync chat, opened only when requested. On local marketing
-// previews it targets the local Laravel app; production targets the portal.
+// Keep every marketing environment paired with the matching portal. This
+// prevents staging reviews from creating chats, referrals, or purchases in
+// production.
+const designSyncLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+const designSyncStaging = location.hostname === 'designs-staging.trydesignsync.com';
+const designSyncPortalBase = designSyncLocal
+    ? 'http://127.0.0.1:8100'
+    : (designSyncStaging ? 'https://staging.trydesignsync.com' : 'https://app.trydesignsync.com');
+
+if (designSyncLocal || designSyncStaging) {
+    document.querySelectorAll('a[href^="https://app.trydesignsync.com"]').forEach((link) => {
+        const target = new URL(link.href);
+        link.href = designSyncPortalBase + target.pathname + target.search + target.hash;
+    });
+}
+
+// Native DesignSync chat, opened only when requested.
 (function () {
     const btn = document.querySelector('[data-chat]');
     if (! btn) return;
@@ -8,8 +23,7 @@
     const unread = btn.querySelector('[data-chat-unread]');
     const preview = document.querySelector('[data-chat-preview]');
     const previewText = preview?.querySelector('[data-chat-preview-text]');
-    const local = ['localhost', '127.0.0.1'].includes(location.hostname);
-    const chatUrl = local ? 'http://127.0.0.1:8100/chat' : 'https://app.trydesignsync.com/chat';
+    const chatUrl = designSyncPortalBase + '/chat';
     const clearUnread = () => { if (unread) unread.hidden = true; if (preview) preview.hidden = true; };
     const open = () => { if (!panel || !frame) return; if (!frame.src) frame.src = chatUrl + '?embed=1&from=' + encodeURIComponent(location.href); panel.hidden = false; btn.setAttribute('aria-expanded','true'); document.body.classList.add('chat-open'); clearUnread(); };
     const shut = () => { panel.hidden = true; btn.setAttribute('aria-expanded','false'); document.body.classList.remove('chat-open'); btn.focus(); };
@@ -30,7 +44,7 @@
         newMessage(event.data.preview);
     });
     window.addEventListener('designsync:demo-message', event => newMessage(event.detail?.preview));
-    if (local && new URLSearchParams(location.search).has('chatDemo')) {
+    if (designSyncLocal && new URLSearchParams(location.search).has('chatDemo')) {
         setTimeout(() => newMessage('Ada replied: I can help you choose the right plan.'), 500);
     }
 })();
@@ -225,7 +239,7 @@
     // Approved reviews are the publication switch: pending/rejected submissions
     // never enter this feed. Keep the honest placeholders if the API is empty or
     // unavailable, so the page never invents social proof.
-    fetch('https://app.trydesignsync.com/feedback/published', {
+    fetch(designSyncPortalBase + '/feedback/published', {
         headers: { Accept: 'application/json' },
     })
         .then((response) => response.ok ? response.json() : Promise.reject())
