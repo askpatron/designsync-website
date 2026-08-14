@@ -52,6 +52,16 @@ add_header X-Content-Type-Options "nosniff" always;
 add_header Referrer-Policy "no-referrer" always;
 ```
 
+Use the committed branded page instead of Nginx's default response:
+
+```nginx
+error_page 404 /404.html;
+
+location = /404.html {
+    internal;
+}
+```
+
 Because the marketing staging site embeds the Laravel staging chat, the nginx
 vhost for `staging.trydesignsync.com` must permit that one frame ancestor with
 `Content-Security-Policy: frame-ancestors 'self' https://designs-staging.trydesignsync.com`
@@ -129,11 +139,17 @@ server {
     root /var/www/designs.trydesignsync.com;
     index index.html;
 
+    error_page 404 /404.html;
+
     ssl_certificate /etc/ssl/trydesignsync-origin.pem;
     ssl_certificate_key /etc/ssl/trydesignsync-origin-key.pem;
 
     location / {
         try_files $uri $uri/ =404;
+    }
+
+    location = /404.html {
+        internal;
     }
 
     location ~* \.(?:css|js|jpg|jpeg|png|gif|webp|svg|ico|mp4|woff2?)$ {
