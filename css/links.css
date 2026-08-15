@@ -1,0 +1,145 @@
+:root {
+    color-scheme: light;
+    --ink: #000;
+    --teal: #048188;
+    --line: #e8e8e8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background: #fff;
+    color: var(--ink);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.links-page {
+    position: relative;
+    width: min(100%, 430px);
+    min-height: max(720px, 100svh);
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fff;
+}
+
+.links-logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: block;
+    width: 80px;
+    height: 50px;
+}
+
+.links-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.primary-links {
+    position: absolute;
+    top: 325px;
+    left: 30px;
+    width: calc(100% - 60px);
+}
+
+.primary-link {
+    display: flex;
+    min-height: 69px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1.1;
+    text-decoration: none;
+}
+
+.primary-link img {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    transition: transform 180ms ease;
+}
+
+a.primary-link:hover img,
+a.primary-link:focus-visible img {
+    transform: translate(3px, -3px);
+}
+
+a.primary-link:focus-visible,
+.social-link:focus-visible,
+.links-logo:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 4px;
+}
+
+.is-pending {
+    cursor: default;
+}
+
+.social-links {
+    position: absolute;
+    top: 649px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 67px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.social-link {
+    color: var(--teal);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1.1;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+@media (max-height: 760px) {
+    .links-page {
+        min-height: 680px;
+    }
+
+    .primary-links {
+        top: 290px;
+    }
+
+    .social-links {
+        top: 580px;
+    }
+}
+
+@media (max-width: 370px) {
+    .primary-link {
+        font-size: 27px;
+    }
+
+    .social-links {
+        gap: 52px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .primary-link img {
+        transition: none;
+    }
+}
