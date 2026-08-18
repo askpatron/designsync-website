@@ -14,6 +14,31 @@ if (designSyncLocal || designSyncStaging) {
     });
 }
 
+// Header: Log in for guests, Workspace once the app session is visible.
+(function () {
+    const link = document.querySelector('[data-account-link]');
+    if (!link) return;
+
+    const safeHome = (home) => {
+        if (typeof home !== 'string' || !home.startsWith('/') || home.startsWith('//') || home.includes('\\') || home.includes('://')) {
+            return '/';
+        }
+        return home;
+    };
+
+    fetch(designSyncPortalBase + '/session-status', {
+        credentials: 'include',
+        headers: { Accept: 'application/json' },
+    }).then((response) => (response.ok ? response.json() : null)).then((data) => {
+        if (!data?.signed_in) return;
+        link.href = designSyncPortalBase + safeHome(data.home);
+        link.textContent = 'Workspace';
+        link.classList.remove('btn-ghost');
+        link.classList.add('btn-dark');
+        link.setAttribute('aria-label', 'Open your workspace');
+    }).catch(() => {});
+})();
+
 // Native DesignSync chat, opened only when requested.
 (function () {
     const btn = document.querySelector('[data-chat]');
