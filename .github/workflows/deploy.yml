@@ -1,35 +1,50 @@
-name: Deploy
+name: Validate
 
-# This repo doesn't own docker-compose.prod.yml or deploy-container.sh —
-# those live in askpatron/designsync, which builds this repo as a sibling
-# checkout (../designsync-website) for the 'website' service. So instead of
-# duplicating deploy-container.sh here, this checks out just this repo and
-# pipes .github/scripts/remote-deploy.sh over SSH to run the same
-# pull-and-rebuild sequence directly on the VPS.
+# Native marketing production and staging live on 104.207.75.124.
+# This workflow never SSHs and never deploys Docker.
+# Owner deploys from the VPS using DEPLOYMENT.md (git checkout + rsync).
 
 on:
   push:
     branches: [main]
-  workflow_dispatch: {}
+  pull_request:
+  workflow_dispatch:
 
 concurrency:
-  group: designsync-deploy
-  cancel-in-progress: false
+  group: designsync-website-validate
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up deploy key
+      - name: Confirm this workflow cannot deploy
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
+          set -euo pipefail
+          echo "Validation only. No remote deploy."
+          ruby -ryaml -e '
+            wf = YAML.load_file(".github/workflows/deploy.yml")
+            wf.fetch("jobs").each do |_name, job|
+              Array(job["steps"]).each do |step|
+                run = step["run"].to_s
+                abort "SSH deploy is forbidden" if run.match?(/ssh-keyscan|~\/.ssh\/deploy_key|StrictHostKeyChecking/)
+                abort "ssh deploy commands are forbidden" if run.match?(/\bssh\s+-/)
+                abort "docker compose up is forbidden" if run.match?(/docker\s+compose\s+.*\bup\b/)
+                abort "piped remote deploy is forbidden" if run.match?(/bash\s+-s\s+</)
+              end
+            end
+          '
 
-      - name: Pull + rebuild the shared DesignSync stack
+      - name: Validate workflow YAML
+        run: ruby -ryaml -e "YAML.load_file('.github/workflows/deploy.yml')"
+
+      - name: Confirm remote Docker deploy script is disabled
         run: |
-          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 \
-              -i ~/.ssh/deploy_key "root@${{ secrets.VPS_HOST }}" \
-              bash -s < .github/scripts/remote-deploy.sh
+          set -euo pipefail
+          bash -n .github/scripts/remote-deploy.sh
+          if bash .github/scripts/remote-deploy.sh; then
+            echo "remote-deploy.sh must refuse to run." >&2
+            exit 1
+          fi

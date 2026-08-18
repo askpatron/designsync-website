@@ -1,22 +1,19 @@
 #!/usr/bin/env bash
-# Run on the VPS via: ssh ... bash -s < this-file
-# Mirrors sync_repo()/quick_update() in askpatron/designsync's
-# deploy-container.sh — keep the two in sync if that logic changes.
 set -euo pipefail
 
-cd /apps/designsync-website
-git fetch origin --prune
-git reset --hard origin/main
-test -f index.html || { echo "ABORT: website checkout is empty"; exit 1; }
-echo "designsync-website HEAD: $(git log -1 --oneline)"
+# Disabled. This script rebuilt leftover Docker at /apps/designsync on
+# 148.230.125.157. That host is not production and is not public staging.
+# Marketing production: /var/www/designs.trydesignsync.com on 104.207.75.124
+# Marketing staging: /var/www/designs-staging.trydesignsync.com on the same server.
 
-cd /apps/designsync
-git fetch origin --prune
-git reset --hard origin/main
-echo "designsync HEAD: $(git log -1 --oneline)"
+cat >&2 <<'EOF'
+Refused: remote-deploy.sh is disabled.
 
-export GIT_COMMIT=$(git rev-parse HEAD)
-docker compose -f docker-compose.prod.yml --env-file .env.production build --pull --parallel
-docker compose -f docker-compose.prod.yml --env-file .env.production up -d --force-recreate
-docker image prune -f 2>/dev/null || true
-echo "Deployment complete"
+It targeted leftover Docker at 148.230.125.157, which is not production
+and is not public staging.
+
+Owner-run native marketing deploy is documented in DEPLOYMENT.md on
+104.207.75.124. Do not rebuild the old shared Docker stack.
+EOF
+
+exit 1

@@ -4,8 +4,13 @@ Target: **https://designs.trydesignsync.com**
 
 Staging target: **https://designs-staging.trydesignsync.com**
 
-This is a static HTML/CSS/JavaScript site. It has no build step. The selected
-host is the existing VPS at `159.198.47.197`.
+This is a static HTML/CSS/JavaScript site. It has no build step. Production
+and marketing staging both live on the DesignSync VPS at `104.207.75.124`.
+
+Pushing `main` does **not** deploy this site. The GitHub workflow is
+validation-only: it cannot SSH, cannot run `remote-deploy.sh`, and cannot
+rebuild leftover Docker at `148.230.125.157`. That old host is not production
+and is not public staging. The owner deploys from the native live server.
 
 ## Marketing staging
 
@@ -81,9 +86,8 @@ sudo systemctl reload nginx
 
 ## Current blockers
 
-- The Cloudflare `designs` DNS record has not been created.
-- This Mac's SSH identity is rejected by `root@159.198.47.197`.
-- The repository has no remote, so deployment currently uses `rsync`.
+- This Mac may not have passwordless root SSH to `104.207.75.124`; the owner deploys from an authorized VPS session.
+- Production marketing deploys from the VPS git checkout (`/opt/designsync-website`), not from a Mac `rsync` to the old 1 GB box.
 
 The authenticated review form in the Laravel app must be deployed before this
 site, because the marketing CTA links to:
@@ -96,7 +100,7 @@ First create a proxied Cloudflare DNS record:
 
 - Type: `A`
 - Name: `designs`
-- IPv4 address: `159.198.47.197`
+- IPv4 address: `104.207.75.124`
 - Proxy status: Proxied
 
 Then connect through the VPS console or an authorized SSH terminal:
@@ -160,9 +164,9 @@ Source of truth: **https://github.com/askpatron/designsync-website** (public, so
 the VPS clones it without a token). Agent pushes to `main`; owner deploys from
 the VPS. No Mac `rsync` required.
 
-This site is not alone on the box: `app.trydesignsync.com` (Laravel) and
-`houseofnkineya.ng` also live here. Every path below is scoped to
-`/var/www/designs.trydesignsync.com`, so nothing here touches them.
+This site shares the production VPS with `app.trydesignsync.com` (Laravel).
+`houseofnkineya.ng` is not on this box. Every path below is scoped to
+`/var/www/designs.trydesignsync.com`, so nothing here touches the Laravel app.
 
 ### One-time setup on the VPS
 
