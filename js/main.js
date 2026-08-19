@@ -14,6 +14,30 @@ if (designSyncLocal || designSyncStaging) {
     });
 }
 
+// Carry ?ref= through plan exploration and into every portal /start CTA.
+// Browser storage is a convenience only. The portal decides validity and expiry.
+(function () {
+    const retain = globalThis.DesignSyncReferral && globalThis.DesignSyncReferral.retain;
+    const applyToStartLinks = globalThis.DesignSyncReferral && globalThis.DesignSyncReferral.applyToStartLinks;
+    if (typeof retain !== 'function' || typeof applyToStartLinks !== 'function') return;
+
+    const queryCode = new URLSearchParams(location.search).get('ref');
+    const code = retain(localStorage, queryCode);
+    if (!code) return;
+
+    applyToStartLinks(document, designSyncPortalBase, code);
+
+    fetch(designSyncPortalBase + '/referral/capture', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+    }).catch(() => {});
+})();
+
 // Header: Log in for guests, Workspace once the app session is visible.
 (function () {
     const link = document.querySelector('[data-account-link]');

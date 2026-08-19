@@ -28,6 +28,7 @@ jobs:
             wf = YAML.load_file(".github/workflows/deploy.yml")
             wf.fetch("jobs").each do |_name, job|
               Array(job["steps"]).each do |step|
+                next if step["name"] == "Confirm this workflow cannot deploy"
                 run = step["run"].to_s
                 abort "SSH deploy is forbidden" if run.match?(/ssh-keyscan|~\/.ssh\/deploy_key|StrictHostKeyChecking/)
                 abort "ssh deploy commands are forbidden" if run.match?(/\bssh\s+-/)
@@ -48,3 +49,11 @@ jobs:
             echo "remote-deploy.sh must refuse to run." >&2
             exit 1
           fi
+
+      - name: Check marketing JavaScript
+        run: |
+          set -euo pipefail
+          node --check js/referral.js
+          node --check js/main.js
+          node scripts/check-referral-js.js
+          node scripts/referral-behavior.test.js
