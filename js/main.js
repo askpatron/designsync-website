@@ -285,6 +285,26 @@ if (designSyncLocal || designSyncStaging) {
     const track = document.getElementById('testiTrack');
     if (! track) return;
 
+    const reviewDialog = document.createElement('dialog');
+    reviewDialog.className = 'review-dialog';
+    reviewDialog.innerHTML = '<div class="review-dialog-head"><strong>Client feedback</strong><button type="button" aria-label="Close full review">&times;</button></div><div class="stars" data-review-stars></div><p data-review-body></p><div class="testi-source" data-review-source></div>';
+    document.body.append(reviewDialog);
+
+    const closeReview = () => reviewDialog.close();
+    reviewDialog.querySelector('button').addEventListener('click', closeReview);
+    reviewDialog.addEventListener('click', (event) => {
+        if (event.target === reviewDialog) closeReview();
+    });
+
+    const showFullReview = (review, sourceText) => {
+        const stars = reviewDialog.querySelector('[data-review-stars]');
+        stars.setAttribute('aria-label', `${review.rating} out of 5 stars`);
+        stars.textContent = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        reviewDialog.querySelector('[data-review-body]').textContent = review.body;
+        reviewDialog.querySelector('[data-review-source]').textContent = sourceText;
+        reviewDialog.showModal();
+    };
+
     // Approved reviews are the publication switch: pending/rejected submissions
     // never enter this feed. Keep the honest placeholders if the API is empty or
     // unavailable, so the page never invents social proof.
@@ -306,6 +326,7 @@ if (designSyncLocal || designSyncStaging) {
                 stars.textContent = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
 
                 const quote = document.createElement('p');
+                quote.className = 'testi-quote';
                 quote.textContent = review.body;
 
                 const source = document.createElement('div');
@@ -316,7 +337,16 @@ if (designSyncLocal || designSyncStaging) {
                     review.company_name,
                 ].filter(Boolean).join(' · ');
 
-                card.append(stars, quote, source);
+                card.append(stars, quote);
+                if (review.body.length > 240) {
+                    const readMore = document.createElement('button');
+                    readMore.type = 'button';
+                    readMore.className = 'testi-read-more';
+                    readMore.textContent = 'Read more';
+                    readMore.addEventListener('click', () => showFullReview(review, source.textContent));
+                    card.append(readMore);
+                }
+                card.append(source);
                 fragment.append(card);
             });
 
