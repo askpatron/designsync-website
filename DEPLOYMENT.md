@@ -20,6 +20,28 @@ Auth and sends `X-Robots-Tag: noindex, nofollow, noarchive`. JavaScript rewrites
 all portal links and API/chat traffic to `https://staging.trydesignsync.com`,
 so staging reviews cannot create production purchases or support records.
 
+## Environment pairing
+
+Referral links open the marketing site with `?ref=CODE`, then every `/start`
+call to action carries that code to the matching portal.
+
+| Environment | Marketing origin | Portal origin | App `MARKETING_URL` |
+|---|---|---|---|
+| Local | `http://127.0.0.1:8200` | `http://127.0.0.1:8100` | `http://127.0.0.1:8200` |
+| Staging | `https://designs-staging.trydesignsync.com` | `https://staging.trydesignsync.com` | `https://designs-staging.trydesignsync.com` |
+| Production | `https://designs.trydesignsync.com` | `https://app.trydesignsync.com` | `https://designs.trydesignsync.com` |
+
+`js/main.js` rewrites hardcoded production portal links on local and staging,
+posts a credentialed capture to `/referral/capture`, and adds `ref` to `/start`
+CTAs only. An explicit well-formed `?ref=` always updates the browser convenience
+value so a later valid link is not blocked by a stored unknown or disabled code.
+The portal cookie remains first-valid for automatic attribution. Login, workspace,
+chat, legal and external links are left unchanged. Local or staging visitors are
+never sent to production.
+
+To preview locally, serve this directory on port 8200 while Laravel listens on
+8100. Do not use the leftover Docker host `148.230.125.157`.
+
 Create a proxied Cloudflare DNS record:
 
 - Type: `A`
